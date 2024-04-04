@@ -15,6 +15,7 @@ export default function FourOFourPage() {
                     sx={{
                         display: 'flex',
                         height: '95dvh',
+                        width: '100vw',
                         justifyContent: 'center',
                         alignItems: 'center',
                     }}
