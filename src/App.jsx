@@ -29,7 +29,7 @@ import Auth from './Auth.jsx';
 import { MaterialDesignContent, SnackbarProvider } from 'notistack';
 import { useMediaQuery } from 'react-responsive';
 import FourOFourPage from './404.jsx';
-import PrivacyPolicy from './privacyPolicy.jsx';
+// import PrivacyPolicy from './privacyPolicy.jsx';
 
 export default function App() {
     const isMobile = useMediaQuery({query: 'max-width: 600px'})
@@ -128,10 +128,10 @@ export default function App() {
                                     />
                                 }
                             />
-                            <Route
+                           {/*  <Route
                                 path='/privacypolicy'
                                 element={<PrivacyPolicy />}
-                            />
+                            /> */}
 
                             <Route path='*' element={<FourOFourPage />} />
                         </Routes>
