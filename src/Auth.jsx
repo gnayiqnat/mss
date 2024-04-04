@@ -1,10 +1,6 @@
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import PersonOutlineRoundedIcon from '@mui/icons-material/PersonOutlineRounded';
-import {
-    Button,
-    InputAdornment,
-    Typography
-} from '@mui/material';
+import { Button, InputAdornment, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useAnimate } from 'framer-motion';
@@ -13,9 +9,9 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../supabaseClient';
+import { checkIfSignedIn, signIn } from './supabaseClient';
 
-export default function Auth({ isLoggedIn, setIsLoggedIn }) {
+export default function Auth() {
     const navigate = useNavigate();
     const [scope, animate] = useAnimate();
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
@@ -24,10 +20,20 @@ export default function Auth({ isLoggedIn, setIsLoggedIn }) {
     const [CEV, setCEV] = useState('');
     const [CPV, setCPV] = useState('');
 
+    // Check if user has logged in or not
+
+    const [isLoggedIn, setIsLoggedIn] = useState(checkIfSignedIn());
+
+    React.useEffect(() => {
+        if (isLoggedIn) {
+            navigate('/success');
+        }
+    }, [isLoggedIn]);
+
     function handleSignInSuccess() {
         enqueueSnackbar("You're now logged in.", {
             variant: 'success',
-            preventDuplicate: true
+            preventDuplicate: true,
         }),
             setTimeout(() => {
                 enqueueSnackbar('Redirecting, please wait.', {
@@ -43,43 +49,15 @@ export default function Auth({ isLoggedIn, setIsLoggedIn }) {
 
     function handleSubmit() {
         if (CEV && CPV) {
-            supabase.auth
-                .signInWithPassword({
-                    email: CEV,
-                    password: CPV,
-                })
-                .then((response) => {
-                    response.data.user
-                        ? handleSignInSuccess()
-                        : (enqueueSnackbar(response.error.message, {
-                              variant: 'error',
-                              preventDuplicate: true
-                          }),
-                          response.error.message ===
-                              'Invalid login credentials' &&
-                              (animate(
-                                  scope.current,
-                                  { opacity: 0 },
-                                  { duration: 0.5 }
-                              ),
-                              setTimeout(() => {
-                                  setCEV('');
-                                  setCPV('');
-                                  animate(
-                                      scope.current,
-                                      { opacity: 1 },
-                                      { duration: 0.5 }
-                                  );
-                              }, 750)));
-                });
+            signIn(CEV, CPV).then((response) => {
+                response === true && handleSignInSuccess();
+            });
         } else {
             enqueueSnackbar('Fields cannot be empty', {
                 variant: 'error',
             });
         }
-        
     }
-
 
     return (
         <>
