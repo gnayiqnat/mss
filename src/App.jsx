@@ -29,11 +29,11 @@ import Auth from './Auth.jsx';
 import { MaterialDesignContent, SnackbarProvider } from 'notistack';
 import { useMediaQuery } from 'react-responsive';
 import FourOFourPage from './404.jsx';
+import SignOut from './signOut.jsx';
 // import PrivacyPolicy from './privacyPolicy.jsx';
 
 export default function App() {
-    const isMobile = useMediaQuery({query: 'max-width: 600px'})
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const isMobile = useMediaQuery({ query: 'max-width: 600px' });
 
     const StyledMaterialDesignContent = styled(MaterialDesignContent)(() => ({
         '&.notistack-MuiContent-success': {
@@ -119,16 +119,9 @@ export default function App() {
                     <BrowserRouter>
                         {' '}
                         <Routes>
-                            <Route
-                                path='/'
-                                element={
-                                    <Auth
-                                        isLoggedIn={isLoggedIn}
-                                        setIsLoggedIn={setIsLoggedIn}
-                                    />
-                                }
-                            />
-                           {/*  <Route
+                            <Route path='/' element={<Auth />} />                            <Route path='/' element={<Auth />} />
+                            <Route path='/signout' element={<SignOut />} />
+                            {/*  <Route
                                 path='/privacypolicy'
                                 element={<PrivacyPolicy />}
                             /> */}

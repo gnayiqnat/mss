@@ -22,13 +22,15 @@ export default function Auth() {
 
     // Check if user has logged in or not
 
-    const [isLoggedIn, setIsLoggedIn] = useState(checkIfSignedIn());
-
     React.useEffect(() => {
-        if (isLoggedIn) {
-            navigate('/success');
-        }
-    }, [isLoggedIn]);
+        checkIfSignedIn().then((isSignedIn) => {
+            if (isSignedIn == true) {
+                navigate('/success');
+            } else {
+                console.log(isSignedIn);
+            }
+        });
+    }, []);
 
     function handleSignInSuccess() {
         enqueueSnackbar("You're now logged in.", {
