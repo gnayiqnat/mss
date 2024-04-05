@@ -30,6 +30,9 @@ import { MaterialDesignContent, SnackbarProvider } from 'notistack';
 import { useMediaQuery } from 'react-responsive';
 import FourOFourPage from './404.jsx';
 import SignOut from './signOut.jsx';
+import Success from './success.jsx';
+import SetUsername from './setUsername.jsx';
+import SetPassword from './setPassword.jsx';
 // import PrivacyPolicy from './privacyPolicy.jsx';
 
 export default function App() {
@@ -119,8 +122,17 @@ export default function App() {
                     <BrowserRouter>
                         {' '}
                         <Routes>
-                            <Route path='/' element={<Auth />} />                            <Route path='/' element={<Auth />} />
+                            <Route path='/' element={<Auth />} />
+                            <Route path='/success' element={<Success />} />
                             <Route path='/signout' element={<SignOut />} />
+                            <Route
+                                path='/set-username'
+                                element={<SetUsername />}
+                            />
+                            <Route
+                                path='/set-password'
+                                element={<SetPassword />}
+                            />
                             {/*  <Route
                                 path='/privacypolicy'
                                 element={<PrivacyPolicy />}

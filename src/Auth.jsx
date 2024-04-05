@@ -26,8 +26,6 @@ export default function Auth() {
         checkIfSignedIn().then((isSignedIn) => {
             if (isSignedIn == true) {
                 navigate('/success');
-            } else {
-                console.log(isSignedIn);
             }
         });
     }, []);
@@ -51,14 +49,19 @@ export default function Auth() {
 
     function handleSubmit() {
         if (CEV && CPV) {
+            animate(scope.current, { opacity: 0 }, { duration: 0.5 });
+
             signIn(CEV, CPV).then((response) => {
-                response === true && handleSignInSuccess();
+                response === true
+                    ? handleSignInSuccess()
+                    : (setCEV(''), setCPV(''));
             });
         } else {
             enqueueSnackbar('Fields cannot be empty', {
                 variant: 'error',
             });
         }
+        animate(scope.current, { opacity: 1 }, { duration: 0.5 });
     }
 
     return (
