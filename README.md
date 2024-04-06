@@ -20,7 +20,7 @@ As MSS is still in beta, there may be some bugs and limitations. Please report a
 
 Contributions to MSS are welcome! Feel free to submit bug reports, feature requests, or even pull requests to help improve the website for everyone.
 
-License
+## License
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0). You can find the full text of the license in the LICENSE file.
 
 ## Contact
