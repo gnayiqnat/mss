@@ -2,6 +2,7 @@
 
 [![Website Status](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://makerspace-seg.pages.dev)
 
+[![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/gnayiqnat/mss/blob/main/LICENSE)
 
 MSS is a website designed to automatically log sign-in times for users within an organization. It's a work in progress and is currently in beta, so expect some bugs and frequent updates.
 
