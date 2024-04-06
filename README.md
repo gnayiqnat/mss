@@ -1,10 +1,9 @@
-# MSS - Sign-in/Sign-out Logger
+# MSS
 
 [![Website Status](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://makerspace-seg.pages.dev)
 
-## Description
 
-MSS (Sign-in/Sign-out Logger) is a website designed to automatically log sign-in times for users within an organization. It's a work in progress and is currently in beta, so expect some bugs and frequent updates.
+MSS is a website designed to automatically log sign-in times for users within an organization. It's a work in progress and is currently in beta, so expect some bugs and frequent updates.
 
 ## Prerequisites
 
