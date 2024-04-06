@@ -11,17 +11,18 @@ export default function SignOut() {
     const [isSignedIn, setIsSignedIn] = useState(false);
 
     useEffect(() => {
-        if (isSignedIn == false) {
-            checkIfSignedIn().then((result) => {
-                if (result == true) {
-                    setIsSignedIn(true);
-                } else {
-                    navigate('/');
-                }
-            });
-        }
-    }, [isSignedIn]);
+        checkIfSignedIn().then((r) => {
+            if (r != true) {
+                navigate('/');
+            }
+        });
+    }, []);
 
+    async function buttonClick () {
+        await handleSignOut()
+
+        navigate('/')
+    }
 
     return (
         <>
@@ -36,7 +37,7 @@ export default function SignOut() {
                     variant='outlined'
                     sx={{ textTransform: 'none' }}
                     onClick={() => {
-                        handleSignOut(), setIsSignedIn(false);
+                        buttonClick()
                     }}
                 >
                     <Typography>Log out</Typography>
