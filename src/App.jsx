@@ -33,6 +33,7 @@ import SignOut from './signOut.jsx';
 import Success from './success.jsx';
 import SetUsername from './setUsername.jsx';
 import SetPassword from './setPassword.jsx';
+import { handleSignOut } from './supabaseClient.jsx';
 // import PrivacyPolicy from './privacyPolicy.jsx';
 
 export default function App() {
@@ -79,6 +80,10 @@ export default function App() {
             color: 'rgb(211, 47, 47)',
         },
     }));
+
+    window.addEventListener('beforeunload', async function (event) {
+        handleSignOut();
+    });
 
     return (
         <>

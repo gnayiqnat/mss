@@ -47,12 +47,14 @@ export default function SetUsername() {
 
     async function handleSubmit() {
         setIsLoading(true);
-    
+
         if (newUsername) {
             try {
                 const response = await setUsername(newUsername);
                 if (response && response.status === 201) {
-                    enqueueSnackbar('Username change success', { variant: 'success' });
+                    enqueueSnackbar('Username change success', {
+                        variant: 'success',
+                    });
                     enqueueSnackbar('Redirecting you', { variant: 'info' });
                     animate(
                         scope.current,
@@ -61,7 +63,9 @@ export default function SetUsername() {
                         () => setTimeout(() => navigate('/'), 750)
                     );
                 } else {
-                    enqueueSnackbar(response.error.message, { variant: 'error' });
+                    enqueueSnackbar(response.error.message, {
+                        variant: 'error',
+                    });
                     setNewUsername('');
                 }
             } catch (error) {
@@ -70,13 +74,16 @@ export default function SetUsername() {
                 setIsLoading(false);
             }
         } else {
-            enqueueSnackbar('Fields cannot be empty', { variant: 'error', preventDuplicate: true });
+            enqueueSnackbar('Fields cannot be empty', {
+                variant: 'error',
+                preventDuplicate: true,
+            });
             setTimeout(() => {
                 setIsLoading(false);
             }, 500);
         }
     }
-    
+
     return (
         <>
             <motion.div
