@@ -108,7 +108,7 @@ export default function Auth() {
                                 variant='standard'
                                 name='email'
                                 type='email'
-                                placeholder='User ID'
+                                placeholder='Email'
                                 color='primary'
                                 value={CEV}
                                 inputProps={{
