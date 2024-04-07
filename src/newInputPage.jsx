@@ -30,6 +30,8 @@ export default function NewInputPage() {
     const [studentDetailsList, setStudentDetailsList] = useState('');
     const [buttonClicked, setButtonClicked] = useState(false);
     const isMobile = useMediaQuery({ query: '(max-width: 600px) ' });
+    const isMobile500 = useMediaQuery({ query: '(max-width: 500px) ' });
+
     useEffect(() => {
         if (studentDetailsList == '') {
             fetchStudents();
@@ -88,7 +90,13 @@ export default function NewInputPage() {
                     </Typography>
                     {studentDetailsList != null &&
                         studentDetailsList.length < 8 && (
-                            <Box sx={{ display: 'flex', flexDirection: 'row', gap: '0px 10px' }}>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    gap: '0px 10px',
+                                }}
+                            >
                                 <Button
                                     variant='outlined'
                                     sx={{
@@ -103,11 +111,11 @@ export default function NewInputPage() {
 
                                         backgroundColor: 'transparent',
                                         '&:hover': {
-                                            borderWidth: '1.5px'
+                                            borderWidth: '1.5px',
                                         },
                                     }}
                                     onClick={() => {
-                                        setButtonClicked(true)
+                                        setButtonClicked(true);
                                     }}
                                 >
                                     <CachedTwoToneIcon
@@ -125,7 +133,7 @@ export default function NewInputPage() {
                                             fontWeight: '700',
                                         }}
                                     >
-                                       Refresh
+                                        Refresh
                                     </Typography>
                                 </Button>
                                 <Button
@@ -175,7 +183,7 @@ export default function NewInputPage() {
                         gap: '10px 0px',
                     }}
                 >
-                    {studentDetailsList &&
+                    {studentDetailsList.length >= 1 ? (
                         studentDetailsList.map((e, i) => (
                             <motion.div
                                 key={i}
@@ -295,7 +303,22 @@ export default function NewInputPage() {
                                     </Box>
                                 </Card>
                             </motion.div>
-                        ))}
+                        ))
+                    ) : (
+                        <Box sx={{display: 'flex', justifyContent: 'center', mt: 10,}}>
+                            <Typography
+                                sx={{
+                                    color: 'primary.main',
+                                    fontFamily: 'Nunito',
+                                    fontWeight: '500',
+                                    fontSize: '1.2rem',
+                                    opacity: 0.5,
+                                }}
+                            >
+                                No active sessions
+                            </Typography>
+                        </Box>
+                    )}
                 </Box>
             </Box>
         </>
