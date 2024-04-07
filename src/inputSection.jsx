@@ -122,7 +122,8 @@ export default function InputSection({ setDrawerOpen }) {
                         ))}
                     </TextField>
                 </Box>
-                {isMobile ? (
+                <SubmitButton handleSubmit={handleSubmit} />
+                {/* {isMobile ? (
                     <Box
                         sx={{
                             position: 'absolute',
@@ -136,7 +137,7 @@ export default function InputSection({ setDrawerOpen }) {
                     </Box>
                 ) : (
                     <SubmitButton handleSubmit={handleSubmit} />
-                )}
+                )} */}
             </Box>
         </>
     );
@@ -148,6 +149,7 @@ function CancelButton({ setDrawerOpen }) {
             <Button
             variant='outlined'
                 sx={{
+                    
                     mt: 1,
                     mb: 1,
                     backgroundColor: 'secondary.main',
@@ -186,11 +188,14 @@ function SubmitButton({ handleSubmit }) {
     return (
         <Button
             sx={{
+                position: isMobile && 'absolute',
+                bottom: isMobile && '10px',
                 mt: 2,
+                mb: 0.5,
                 backgroundColor: 'primary.main',
                 padding: '15px',
                 width: '425px',
-                maxWidth: '95vw',
+                maxWidth: '93vw',
 
                 borderRadius: '20px',
                 '&:hover': {

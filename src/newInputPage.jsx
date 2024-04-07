@@ -259,8 +259,8 @@ function AddStudentDrawer({ drawerOpen, setDrawerOpen }) {
                         sx={{
                             position: 'absolute',
                             top: '0px',
-                            left: '105px',
-                            padding: '20px',
+                            left: isMobile ? '0px' : '105px',
+                            padding: isMobile ? '10px' :'20px',
                         }}
                     >
                         <IconButton
