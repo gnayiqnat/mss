@@ -45,7 +45,7 @@ export default function NewInputPage() {
     async function fetchStudents() {
         await getStudentDetails().then((r) => setStudentDetailsList(r));
 
-        if (studentDetailsList.length <= 8) {
+        if (studentDetailsList.length === 7) {
             setDrawerOpen(false);
         }
     }
@@ -250,7 +250,9 @@ export default function NewInputPage() {
                                 <Card
                                     variant='outlined'
                                     sx={{
-                                        padding: isMobile ? '13px 20px' :'13px 30px',
+                                        padding: isMobile
+                                            ? '13px 20px'
+                                            : '13px 30px',
                                         color: 'primary.main',
 
                                         display: 'flex',
