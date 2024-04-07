@@ -1,9 +1,14 @@
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import PersonOutlineRoundedIcon from '@mui/icons-material/PersonOutlineRounded';
-import { Button, InputAdornment, Typography } from '@mui/material';
+import {
+    Button,
+    CircularProgress,
+    InputAdornment,
+    Typography,
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { useAnimate } from 'framer-motion';
+import { motion, useAnimate } from 'framer-motion';
 import { enqueueSnackbar } from 'notistack';
 import * as React from 'react';
 import { useState } from 'react';
@@ -14,6 +19,7 @@ import { checkIfSignedIn, signIn } from './supabaseClient';
 export default function Auth() {
     const navigate = useNavigate();
     const [scope, animate] = useAnimate();
+    const [isLoading, setIsLoading] = useState(false);
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
 
     // Current Email & Password Value
@@ -48,6 +54,7 @@ export default function Auth() {
     }
 
     function handleSubmit() {
+        setIsLoading(true);
         if (CEV && CPV) {
             animate(scope.current, { opacity: 0 }, { duration: 0.5 });
 
@@ -61,6 +68,9 @@ export default function Auth() {
                 variant: 'error',
             });
         }
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 200);
         animate(scope.current, { opacity: 1 }, { duration: 0.5 });
     }
 
@@ -174,7 +184,12 @@ export default function Auth() {
                                     },
                                 }}
                             />
-                            <Box
+                           <motion.div   
+                                initial={{ scale: 1 }}
+                                whileHover={{ scale: 0.95 }}
+                                whileTap={{ scale: 0.8 }}
+                            >
+                             <Box
                                 sx={{
                                     mt: 5,
                                     display: 'flex',
@@ -195,20 +210,30 @@ export default function Auth() {
                                         handleSubmit();
                                     }}
                                 >
-                                    <Typography
-                                        sx={{
-                                            opacity: 0.7,
-                                            fontFamily: 'Nunito',
-                                            textTransform: 'none',
-                                            color: 'hsl(216, 18%, 85%)',
-                                            fontWeight: '600',
-                                            fontSize: '18px',
-                                        }}
-                                    >
-                                        Submit
-                                    </Typography>
+                                    {isLoading ? (
+                                        <CircularProgress
+                                            disableShrink
+                                            size='1.69rem'
+                                            sx={{
+                                                color: 'hsl(216, 18%, 85%)',
+                                            }}
+                                        />
+                                    ) : (
+                                        <Typography
+                                            sx={{
+                                                opacity: 0.7,
+                                                fontFamily: 'Nunito',
+                                                textTransform: 'none',
+                                                color: 'hsl(216, 18%, 85%)',
+                                                fontWeight: '600',
+                                                fontSize: '18px',
+                                            }}
+                                        >
+                                            Submit
+                                        </Typography>
+                                    )}
                                 </Button>
-                            </Box>
+                            </Box></motion.div>
                         </Box>
                     </>
                 </Box>
