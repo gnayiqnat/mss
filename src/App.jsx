@@ -46,7 +46,13 @@ import Profile from './profile.jsx';
 export default function App() {
     const isMobile = useMediaQuery({ query: 'max-width: 600px' });
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const routes = ['/', '/dashboard', '/profile', '/set-username', '/set-password']
+    const routes = [
+        '/',
+        '/dashboard',
+        '/profile',
+        '/set-username',
+        '/set-password',
+    ];
     const navigate = useNavigate('/');
 
     useEffect(() => {
@@ -54,7 +60,10 @@ export default function App() {
             if (r == true) {
                 setIsLoggedIn(true);
             } else {
-                if (location.pathname != '/' && routes.includes(location.pathname)) {
+                if (
+                    location.pathname != '/' &&
+                    routes.includes(location.pathname)
+                ) {
                     navigate('/');
                 }
             }
@@ -170,7 +179,7 @@ export default function App() {
 }
 
 function NavBar({ isLoggedIn }) {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
 
     async function fetchUsername() {
@@ -241,7 +250,6 @@ function NavBar({ isLoggedIn }) {
                                 >
                                     <Avatar
                                         sx={{
-                                            mr: 2,
                                             backgroundColor: 'primary.main',
                                         }}
                                     />
