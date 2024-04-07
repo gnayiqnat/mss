@@ -232,7 +232,7 @@ function NavBar({ isLoggedIn }) {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 flexDirection: 'row',
-                                gap: '0px 20px',
+                                gap: '0px 10px',
                             }}
                         >
                             <motion.div
