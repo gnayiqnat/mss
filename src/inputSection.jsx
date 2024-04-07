@@ -44,6 +44,7 @@ export default function InputSection({ setDrawerOpen }) {
 
     async function handleSuccess() {
         setIsSessionRunning(true);
+        enqueueSnackbar('Student added', {variant: 'success'})
 
         setStudentName('');
         setSelectedClass('');
