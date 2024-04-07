@@ -225,37 +225,41 @@ function NavBar({ isLoggedIn }) {
                         }}
                     />
 
-                    {isLoggedIn && (
-                        <>
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    flexDirection: 'row',
-                                    gap: '0px 20px',
-                                }}
+                    {username && (
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexDirection: 'row',
+                                gap: '0px 20px',
+                            }}
+                        >
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.5, delay: 1 }}
                             >
                                 <Typography sx={{ color: 'primary.main' }}>
-                                    {username}{' '}
+                                    {username}
                                 </Typography>
-                                <motion.div
-                                    initial={{ scale: 1 }}
-                                    whileHover={{ scale: 1.1 }}
-                                    whileTap={{ scale: 0.9 }}
-                                    style={{ cursor: 'pointer' }}
-                                    onClick={() => {
-                                        navigate('/profile');
+                            </motion.div>
+                            <motion.div
+                                initial={{ scale: 1 }}
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => {
+                                    navigate('/profile');
+                                }}
+                            >
+                                <Avatar
+                                    sx={{
+                                        backgroundColor: 'primary.main',
                                     }}
-                                >
-                                    <Avatar
-                                        sx={{
-                                            backgroundColor: 'primary.main',
-                                        }}
-                                    />
-                                </motion.div>
-                            </Box>
-                        </>
+                                />
+                            </motion.div>
+                        </Box>
                     )}
                 </Toolbar>
             </AppBar>
