@@ -44,7 +44,7 @@ import Profile from './profile.jsx';
 // import PrivacyPolicy from './privacyPolicy.jsx';
 
 export default function App() {
-    const isMobile = useMediaQuery({ query: 'max-width: 600px' });
+    const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const routes = [
         '/',
