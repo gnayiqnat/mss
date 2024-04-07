@@ -1,5 +1,4 @@
 import { AddRounded, CloseRounded } from '@mui/icons-material';
-import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import {
     Box,
     Button,
@@ -79,47 +78,50 @@ export default function NewInputPage() {
                     >
                         Pupils ({studentDetailsList.length})
                     </Typography>
-                    {studentDetailsList != null && (studentDetailsList.length < 8 && <Box
-                        sx={{
-                            mt: -1,
-                        }}
-                    >
-                        <Button
-                            variant='outlined'
-                            sx={{
-                                borderRadius: '10px',
-                                padding: '8px 20px',
-                                paddingLeft: '15px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0px 5px',
-                                mr: 2,
-
-                                backgroundColor: 'primary.main',
-                            }}
-                            onClick={() => {
-                                setDrawerOpen(true);
-                            }}
-                        >
-                            <AddRounded
-                                fontSize='small'
-                                sx={{ color: 'secondary.main' }}
-                            />{' '}
-                            <Typography
+                    {studentDetailsList != null &&
+                        studentDetailsList.length < 8 && (
+                            <Box
                                 sx={{
-                                    color: 'secondary.main',
-                                    mt: 0.17,
-                                    textTransform: 'none',
-                                    fontSize: '0.9rem',
-
-                                    fontFamily: 'Nunito',
-                                    fontWeight: '700',
+                                    mt: -1,
                                 }}
                             >
-                                Add Pupil
-                            </Typography>
-                        </Button>
-                    </Box>)}
+                                <Button
+                                    variant='outlined'
+                                    sx={{
+                                        borderRadius: '10px',
+                                        padding: '8px 20px',
+                                        paddingLeft: '15px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '0px 5px',
+                                        mr: 2,
+
+                                        backgroundColor: 'primary.main',
+                                    }}
+                                    onClick={() => {
+                                        setDrawerOpen(true);
+                                    }}
+                                >
+                                    <AddRounded
+                                        fontSize='small'
+                                        sx={{ color: 'secondary.main' }}
+                                    />{' '}
+                                    <Typography
+                                        sx={{
+                                            color: 'secondary.main',
+                                            mt: 0.17,
+                                            textTransform: 'none',
+                                            fontSize: '0.9rem',
+
+                                            fontFamily: 'Nunito',
+                                            fontWeight: '700',
+                                        }}
+                                    >
+                                        Add Pupil
+                                    </Typography>
+                                </Button>
+                            </Box>
+                        )}
                 </Box>
                 <Box
                     sx={{
@@ -235,22 +237,68 @@ export default function NewInputPage() {
 }
 
 function AddStudentDrawer({ drawerOpen, setDrawerOpen }) {
-    const isMobile = useMediaQuery({query: '(max-width: 600px)'})
+    const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     return (
         <>
             <Drawer
                 anchor='right'
-                sx={{ padding: '0px 30px' }}
+                sx={{
+                    padding: '0px 30px',
+                }}
                 open={drawerOpen}
                 onClose={() => setDrawerOpen(false)}
             >
                 <Box
                     sx={{
                         mt: 5,
-                        padding: isMobile ? '30px 0px' :'80px 50px',
+                        padding: isMobile ? '30px 0px' : '80px 50px',
                         width: '100vw',
                     }}
                 >
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: '0px',
+                            left: '105px',
+                            padding: '20px',
+                        }}
+                    >
+                        <IconButton
+                            onClick={() => {
+                                setDrawerOpen(false);
+                            }}
+                        >
+                            <CloseRounded
+                                fontSize='large'
+                                sx={{ color: 'primary.main' }}
+                            />
+                        </IconButton>
+                        {/* <Button
+                            onClick={() => {
+                                setDrawerOpen(false);
+                            }}
+                            variant='outlined'
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '3px',
+                                borderColor: 'primary.main',
+                                borderWidth: '2px',
+                            }}
+                        >
+                            <CloseRounded sx={{ color: 'primary.main' }} />
+                            <Typography
+                                sx={{
+                                    textTransform: 'none',
+                                    fontFamily: 'Nunito',
+                                    fontWeight: '600',
+                                    fontSize: '1.2rem',
+                                }}
+                            >
+                                CLOSE
+                            </Typography>
+                        </Button> */}
+                    </Box>
                     <Typography
                         align='center'
                         sx={{
