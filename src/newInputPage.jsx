@@ -46,7 +46,7 @@ export default function NewInputPage() {
         await getStudentDetails().then((r) => setStudentDetailsList(r));
 
         if (studentDetailsList.length <= 8) {
-            setDrawerOpen(false)
+            setDrawerOpen(false);
         }
     }
 
@@ -58,7 +58,11 @@ export default function NewInputPage() {
     }
 
     return (
-        <>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+        >
             <GlobalContext.Provider value={setButtonClicked}>
                 <AddStudentDrawer
                     drawerOpen={drawerOpen}
@@ -72,7 +76,6 @@ export default function NewInputPage() {
                     alignItems: 'center',
                     flexDirection: 'column',
                     width: '99vw',
-                    height: '100dvh',
                     gap: '25px',
                 }}
             >
@@ -380,7 +383,7 @@ export default function NewInputPage() {
                     )}
                 </Box>
             </Box>
-        </>
+        </motion.div>
     );
 }
 
@@ -399,7 +402,7 @@ function AddStudentDrawer({ drawerOpen, setDrawerOpen }) {
                 <Box
                     sx={{
                         mt: 5,
-                        padding: isMobile ? '30px 0px' : '80px 50px',
+                        padding: isMobile ? '30px 0px' : '80px 0px',
                         width: '100vw',
                     }}
                 >
@@ -407,7 +410,6 @@ function AddStudentDrawer({ drawerOpen, setDrawerOpen }) {
                         sx={{
                             position: 'absolute',
                             top: '0px',
-                            left: isMobile ? '0px' : '105px',
                             padding: isMobile ? '10px' : '20px',
                         }}
                     >
@@ -447,18 +449,27 @@ function AddStudentDrawer({ drawerOpen, setDrawerOpen }) {
                             </Typography>
                         </Button> */}
                     </Box>
-                    <Typography
-                        align='center'
+                    <Box
                         sx={{
-                            fontFamily: 'Nunito',
-                            fontWeight: '600',
-                            fontSize: '1.5rem',
-                            mb: 7,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexDirection: 'column',
                         }}
                     >
-                        Add new student
-                    </Typography>
-                    <InputSection setDrawerOpen={setDrawerOpen} />
+                        <Typography
+                            align='center'
+                            sx={{
+                                fontFamily: 'Nunito',
+                                fontWeight: '600',
+                                fontSize: '1.5rem',
+                                mb: 7,
+                            }}
+                        >
+                            Add new student
+                        </Typography>
+                        <InputSection setDrawerOpen={setDrawerOpen} />
+                    </Box>
                 </Box>
             </Drawer>
         </>
