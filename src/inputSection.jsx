@@ -44,7 +44,7 @@ export default function InputSection({ setDrawerOpen }) {
 
     async function handleSuccess() {
         setIsSessionRunning(true);
-        enqueueSnackbar('Student added', {variant: 'success'})
+        enqueueSnackbar('Student added', { variant: 'success' });
 
         setStudentName('');
         setSelectedClass('');
@@ -82,6 +82,7 @@ export default function InputSection({ setDrawerOpen }) {
         <>
             <Box
                 sx={{
+                    width: '100vw',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -105,13 +106,13 @@ export default function InputSection({ setDrawerOpen }) {
                         onChange={(e) => {
                             setStudentName(e.target.value);
                         }}
-                        sx={{ width: isMobile ? '90vw' : '300px' }}
+                        sx={{ width: isMobile ? '100vw' : '300px' }}
                         label='Student name'
                     ></TextField>
                     <TextField
                         value={selectedClass}
                         onChange={handleSelectChange}
-                        sx={{ width: isMobile ? '90vw' : '100px' }}
+                        sx={{ width: isMobile ? '100vw' : '100px' }}
                         select
                         label='Grade'
                     >
@@ -147,9 +148,8 @@ function CancelButton({ setDrawerOpen }) {
     return (
         <>
             <Button
-            variant='outlined'
+                variant='outlined'
                 sx={{
-                    
                     mt: 1,
                     mb: 1,
                     backgroundColor: 'secondary.main',
