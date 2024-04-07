@@ -2,6 +2,7 @@ import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import {
     Box,
     Button,
+    CircularProgress,
     FormControl,
     IconButton,
     MenuItem,
@@ -22,6 +23,7 @@ import { enqueueSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalContext } from './newInputPage';
 import { useMediaQuery } from 'react-responsive';
+import { motion } from 'framer-motion';
 
 export default function InputSection({ setDrawerOpen }) {
     const navigate = useNavigate();
@@ -36,6 +38,8 @@ export default function InputSection({ setDrawerOpen }) {
     const [selectedClass, setSelectedClass] = useState(''); // State to store the currently selected value
     const studentClassRef = useRef(selectedClass); // Ref synchronized with state
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleSelectChange = (event) => {
         const newClass = event.target.value;
         setSelectedClass(newClass);
@@ -48,9 +52,12 @@ export default function InputSection({ setDrawerOpen }) {
 
         setStudentName('');
         setSelectedClass('');
+
+        setIsLoading(false);
     }
 
     function handleSubmit() {
+        setIsLoading(true);
         if (studentName && studentClassRef.current) {
             LogSignInTime(studentName, studentClassRef.current).then((r) => {
                 r
@@ -65,6 +72,7 @@ export default function InputSection({ setDrawerOpen }) {
                 variant: 'error',
                 preventDuplicate: true,
             });
+            setIsLoading(false);
         }
 
         getStudentDetails();
@@ -123,7 +131,10 @@ export default function InputSection({ setDrawerOpen }) {
                         ))}
                     </TextField>
                 </Box>
-                <SubmitButton handleSubmit={handleSubmit} />
+                <SubmitButton
+                    handleSubmit={handleSubmit}
+                    isLoading={isLoading}
+                />
                 {/* {isMobile ? (
                     <Box
                         sx={{
@@ -182,43 +193,59 @@ function CancelButton({ setDrawerOpen }) {
         </>
     );
 }
-function SubmitButton({ handleSubmit }) {
+function SubmitButton({ handleSubmit, isLoading }) {
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     const setButtonClicked = useGlobalContext();
     return (
-        <Button
-            sx={{
-                position: isMobile && 'absolute',
-                bottom: isMobile && '10px',
-                mt: 2,
-                mb: 0.5,
-                backgroundColor: 'primary.main',
-                padding: '15px',
-                width: '425px',
-                maxWidth: '93vw',
-
-                borderRadius: '20px',
-                '&:hover': {
-                    backgroundColor: 'primary.main',
-                },
-            }}
-            onClick={() => {
-                handleSubmit();
-                setButtonClicked(true);
-            }}
+        <motion.div
+            initial={{ scale: 1 }}
+            whileHover={{ scale: 0.95 }}
+            whileTap={{ scale: 0.8 }}
         >
-            <Typography
+            <Button
                 sx={{
-                    opacity: 0.7,
-                    fontFamily: 'Nunito',
-                    textTransform: 'none',
-                    color: 'hsl(216, 18%, 85%)',
-                    fontWeight: '600',
-                    fontSize: '18px',
+                    position: isMobile && 'absolute',
+                    bottom: isMobile && '10px',
+                    mt: 2,
+                    mb: 0.5,
+                    backgroundColor: 'primary.main',
+                    padding: '15px',
+                    width: '425px',
+                    maxWidth: '93vw',
+
+                    borderRadius: '20px',
+                    '&:hover': {
+                        backgroundColor: 'primary.main',
+                    },
+                }}
+                onClick={() => {
+                    handleSubmit();
+                    setButtonClicked(true);
                 }}
             >
-                Submit
-            </Typography>
-        </Button>
+                {isLoading ? (
+                    <CircularProgress
+                        disableShrink
+                        size='1.69rem'
+                        sx={{
+                            color: 'hsl(216, 18%, 85%)',
+                        }}
+                    />
+                ) : (
+                    <Typography
+                        sx={{
+                            opacity: 0.7,
+                            fontFamily: 'Nunito',
+                            textTransform: 'none',
+                            color: 'hsl(216, 18%, 85%)',
+                            fontWeight: '600',
+                            fontSize: '18px',
+                        }}
+                    >
+                        Submit
+                    </Typography>
+                )}
+            </Button>
+        </motion.div>
     );
 }
