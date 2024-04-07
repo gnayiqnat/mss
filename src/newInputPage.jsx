@@ -102,88 +102,121 @@ export default function NewInputPage() {
                                     whileHover={{ scale: 0.95 }}
                                     whileTap={{ scale: 0.8 }}
                                 >
-                                    <Button
-                                        variant='outlined'
-                                        sx={{
-                                            borderRadius: '10px',
-                                            borderColor: 'primary.main',
-                                            borderWidth: '1.5px',
-                                            padding: '8px 20px',
-                                            paddingLeft: '15px',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '0px 5px',
-
-                                            backgroundColor: 'transparent',
-                                            '&:hover': {
-                                                borderWidth: '1.5px',
-                                            },
-                                        }}
-                                        onClick={() => {
-                                            setButtonClicked(true);
-                                        }}
-                                    >
-                                        <CachedTwoToneIcon
-                                            fontSize='small'
-                                            sx={{ color: 'primary.main' }}
-                                        />{' '}
-                                        <Typography
+                                    {isMobile500 ? (
+                                        <>
+                                            <IconButton
+                                                onClick={() => {
+                                                    setButtonClicked(true);
+                                                }}
+                                            >
+                                                <CachedTwoToneIcon
+                                                    sx={{
+                                                        color: 'primary.main',
+                                                    }}
+                                                />{' '}
+                                            </IconButton>
+                                        </>
+                                    ) : (
+                                        <Button
+                                            variant='outlined'
                                             sx={{
-                                                color: 'primary.main',
-                                                mt: 0.17,
-                                                textTransform: 'none',
-                                                fontSize: '0.9rem',
+                                                borderRadius: '10px',
+                                                borderColor: 'primary.main',
+                                                borderWidth: '1.5px',
+                                                padding: '8px 20px',
+                                                paddingLeft: '15px',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '0px 5px',
 
-                                                fontFamily: 'Nunito',
-                                                fontWeight: '700',
+                                                backgroundColor: 'transparent',
+                                                '&:hover': {
+                                                    borderWidth: '1.5px',
+                                                },
+                                            }}
+                                            onClick={() => {
+                                                setButtonClicked(true);
                                             }}
                                         >
-                                            Refresh
-                                        </Typography>
-                                    </Button>
+                                            <CachedTwoToneIcon
+                                                fontSize='small'
+                                                sx={{ color: 'primary.main' }}
+                                            />{' '}
+                                            <Typography
+                                                sx={{
+                                                    color: 'primary.main',
+                                                    mt: 0.17,
+                                                    textTransform: 'none',
+                                                    fontSize: '0.9rem',
+
+                                                    fontFamily: 'Nunito',
+                                                    fontWeight: '700',
+                                                }}
+                                            >
+                                                Refresh
+                                            </Typography>
+                                        </Button>
+                                    )}
                                 </motion.div>{' '}
                                 <motion.div
                                     initial={{ scale: 1 }}
                                     whileHover={{ scale: 0.95 }}
                                     whileTap={{ scale: 0.8 }}
                                 >
-                                    <Button
-                                        variant='outlined'
-                                        sx={{
-                                            borderRadius: '10px',
-                                            padding: '8px 20px',
-                                            paddingLeft: '15px',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '0px 5px',
-
-                                            backgroundColor: 'primary.main',
-                                            '&:hover': {
-                                                backgroundColor: 'primary.main',
-                                            },
-                                        }}
-                                        onClick={() => {
-                                            setDrawerOpen(true);
-                                        }}
-                                    >
-                                        <AddRounded
-                                            fontSize='small'
-                                            sx={{ color: 'secondary.main' }}
-                                        />{' '}
-                                        <Typography
+                                    {isMobile500 ? (
+                                        <>
+                                            <IconButton
+                                                onClick={() => {
+                                                    setDrawerOpen(true);
+                                                }}
+                                            >
+                                                <AddRounded
+                                                    sx={{
+                                                        color: 'primary.main',
+                                                    }}
+                                                />{' '}
+                                            </IconButton>
+                                        </>
+                                    ) : (
+                                        <Button
+                                            variant='outlined'
                                             sx={{
-                                                color: 'secondary.main',
-                                                mt: 0.17,
-                                                textTransform: 'none',
-                                                fontSize: '0.9rem',
+                                                borderRadius: '10px',
+                                                padding: '8px 20px',
+                                                paddingLeft: '15px',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '0px 5px',
 
-                                                fontFamily: 'Nunito',
-                                                fontWeight: '700',
+                                                backgroundColor: 'primary.main',
+                                                '&:hover': {
+                                                    backgroundColor:
+                                                        'primary.main',
+                                                },
+                                            }}
+                                            onClick={() => {
+                                                setDrawerOpen(true);
                                             }}
                                         >
-                                            Add Pupil
-                                        </Typography>
-                                    </Button>
+                                            <AddRounded
+                                                fontSize='small'
+                                                sx={{ color: 'secondary.main' }}
+                                            />{' '}
+                                            <Typography
+                                                sx={{
+                                                    color: 'secondary.main',
+                                                    mt: 0.17,
+                                                    textTransform: 'none',
+                                                    fontSize: '0.9rem',
+
+                                                    fontFamily: 'Nunito',
+                                                    fontWeight: '700',
+                                                }}
+                                            >
+                                                Add Pupil
+                                            </Typography>
+                                        </Button>
+                                    )}
                                 </motion.div>
                             </Box>
                         )}
