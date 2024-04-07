@@ -75,7 +75,7 @@ export default function Auth() {
                         flexDirection: 'column',
 
                         width: '96vw',
-                        height: '85dvh',
+                        height: '75dvh',
                     }}
                 >
                     <>
@@ -212,7 +212,7 @@ export default function Auth() {
                         </Box>
                     </>
                 </Box>
-                {!isMobile && (
+                {/*!isMobile && (
                     <Box
                         sx={{
                             display: 'flex',
@@ -240,7 +240,7 @@ export default function Auth() {
                             </Typography>
                         </Button>
                     </Box>
-                )}
+                            )*/}
             </Box>
         </>
     );
