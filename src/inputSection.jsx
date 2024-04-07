@@ -23,7 +23,7 @@ import { useNavigate } from 'react-router-dom';
 import { useGlobalContext } from './newInputPage';
 import { useMediaQuery } from 'react-responsive';
 
-export default function InputSection() {
+export default function InputSection({ setDrawerOpen }) {
     const navigate = useNavigate();
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
 
@@ -31,7 +31,7 @@ export default function InputSection() {
 
     const grades = ['Form 1', 'Form 2', 'Form 3'];
 
-    const studentName = useRef('');
+    const [studentName, setStudentName] = useState('');
 
     const [selectedClass, setSelectedClass] = useState(''); // State to store the currently selected value
     const studentClassRef = useRef(selectedClass); // Ref synchronized with state
@@ -45,22 +45,20 @@ export default function InputSection() {
     async function handleSuccess() {
         setIsSessionRunning(true);
 
-        studentName.current = '';
-        studentName.current == '' && setSelectedClass('');
+        setStudentName('');
+        setSelectedClass('');
     }
 
     function handleSubmit() {
-        if (studentName.current && studentClassRef.current) {
-            LogSignInTime(studentName.current, studentClassRef.current).then(
-                (r) => {
-                    r
-                        ? enqueueSnackbar(r, {
-                              variant: 'error',
-                              preventDuplicate: true,
-                          })
-                        : handleSuccess();
-                }
-            );
+        if (studentName && studentClassRef.current) {
+            LogSignInTime(studentName, studentClassRef.current).then((r) => {
+                r
+                    ? enqueueSnackbar(r, {
+                          variant: 'error',
+                          preventDuplicate: true,
+                      })
+                    : handleSuccess();
+            });
         } else {
             enqueueSnackbar('Fields must not be empty', {
                 variant: 'error',
@@ -102,8 +100,9 @@ export default function InputSection() {
                         onKeyDown={(e) => {
                             e.key === 'Enter' && handleSubmit();
                         }}
+                        value={studentName}
                         onChange={(e) => {
-                            studentName.current = e.target.value;
+                            setStudentName(e.target.value);
                         }}
                         sx={{ width: isMobile ? '90vw' : '300px' }}
                         label='Student name'
@@ -122,20 +121,70 @@ export default function InputSection() {
                         ))}
                     </TextField>
                 </Box>
-                <SubmitButton handleSubmit={handleSubmit} />
+                {isMobile ? (
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            bottom: '10px',
+                            display: 'grid',
+                            gridTemplateRows: '1fr 1fr',
+                        }}
+                    >
+                        <SubmitButton handleSubmit={handleSubmit} />
+                        <CancelButton setDrawerOpen={setDrawerOpen} />
+                    </Box>
+                ) : (
+                    <SubmitButton handleSubmit={handleSubmit} />
+                )}
             </Box>
         </>
     );
 }
 
+function CancelButton({ setDrawerOpen }) {
+    return (
+        <>
+            <Button
+            variant='outlined'
+                sx={{
+                    mt: 1,
+                    mb: 1,
+                    backgroundColor: 'secondary.main',
+                    padding: '14px',
+                    width: '425px',
+                    maxWidth: '95vw',
+
+                    borderRadius: '20px',
+                    '&:hover': {
+                        backgroundColor: 'primary.main',
+                    },
+                }}
+                onClick={() => {
+                    setDrawerOpen(false);
+                }}
+            >
+                <Typography
+                    sx={{
+                        fontFamily: 'Nunito',
+                        textTransform: 'none',
+                        color: 'primary.main',
+                        borderWidth: '2px',
+                        fontWeight: '600',
+                        fontSize: '18px',
+                    }}
+                >
+                    Cancel
+                </Typography>
+            </Button>
+        </>
+    );
+}
 function SubmitButton({ handleSubmit }) {
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     const setButtonClicked = useGlobalContext();
     return (
         <Button
             sx={{
-                position: isMobile &&'absolute',
-                bottom: isMobile && '10px',
                 mt: 2,
                 backgroundColor: 'primary.main',
                 padding: '15px',

@@ -262,7 +262,7 @@ function AddStudentDrawer({ drawerOpen, setDrawerOpen }) {
                     >
                         Add new student
                     </Typography>
-                    <InputSection />
+                    <InputSection setDrawerOpen={setDrawerOpen} />
                 </Box>
             </Drawer>
         </>
