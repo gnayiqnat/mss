@@ -36,7 +36,7 @@ export async function getUsername() {
 
         if (error) throw error;
 
-        return data; // Return the fetched data
+        return data[0].username; // Return the fetched data
     } catch (error) {
         console.error('Error fetching username:', error);
         return null; // Or return something that indicates an error
@@ -120,44 +120,78 @@ export async function logOut() {
         );
     }
 }
-export async function LogSignInTime(username) {
-    const currentTime = new Date().toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
+
+export async function getStudentDetails() {
+    let username;
+    await getUsername().then((r) => {
+        username = r;
     });
-  
-    try {
-      // 1. Client-side check for existing sessions
-      const { data: existingSessions, error: fetchError } = await supabase
+
+    const { data, error } = await supabase
         .from('user_sessions')
-        .select('sign_out_time') 
-        .eq('username', username) 
+        .select('student_name, student_class')
+        .eq('username', username)
+        .eq('sign_out_time', '')
+        .select('*'); // Check for empty string
+
+    return error ? error : data;
+}
+export async function CheckExistingSession() {
+    let username;
+    await getUsername().then((r) => {
+        username = r;
+    });
+    const { data: existingSessions, error: fetchError } = await supabase
+        .from('user_sessions')
+        .select('sign_out_time')
+        .eq('username', username)
         .eq('sign_out_time', ''); // Check for empty string
-  
-      if (fetchError) throw fetchError;
-  
-      if (existingSessions.length > 0) {
-        console.error('User already has an active session'); 
-        return 'You already have an active session. Please sign out first.';
-      }
-  
-      // Check passed, create a new session
-      const { data: newData, error: newError } = await supabase
-        .from('user_sessions')
-        .insert([{ username: username, sign_in_time: currentTime }]);
-  
-      if (newError) throw newError;
-      console.log('Sign-in time logged');
-    } catch (error) {
-      console.error('Error logging sign-in time:', error);
-      return 'Something went wrong. Please check console for more information.';
+
+    if (fetchError) throw fetchError;
+
+    if (existingSessions.length > 0) {
+        return true;
     }
-  }
-  
-export async function UpdateLogOutTime() {
+
+    return false;
+}
+
+export async function LogSignInTime(studentName, studentClass) {
+    let username;
+    await getUsername().then((r) => {
+        username = r;
+    });
+
+    const currentTime = new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+    });
+
+    try {
+        // Create a new session
+        const { data: newData, error: newError } = await supabase
+            .from('user_sessions')
+            .insert([
+                {
+                    username: username,
+                    sign_in_time: currentTime,
+                    student_name: studentName,
+                    student_class: studentClass,
+                },
+            ]);
+
+        if (newError) throw newError;
+        console.log('Sign-in time logged');
+    } catch (error) {
+        console.error('Error logging sign-in time:', error);
+        return 'Something went wrong. Please check console for more information.';
+    }
+}
+
+export async function UpdateLogOutTime(id) {
     const currentTime = new Date().toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -171,6 +205,7 @@ export async function UpdateLogOutTime() {
             .from('user_sessions')
             .update({ sign_out_time: currentTime })
             .eq('sign_out_time', '')
+            .eq('id', id) // Assuming 'id' variable is defined
             .select();
 
         if (error) {
@@ -178,13 +213,19 @@ export async function UpdateLogOutTime() {
             throw error;
         }
     } catch (error) {
+        if (error.code === '22P02') {
+            await supabase
+                .from('user_sessions')
+                .update({ reason: 'User logged out' })
+                .eq('sign_out_time', '')
+                .select();
+
+                await supabase
+                .from('user_sessions')
+                .update({ sign_out_time: currentTime })
+                .eq('sign_out_time', '')
+                .select();
+        }
         console.error('Error in UpdateLogOutTime:', error);
     }
-}
-
-// ... Other Components - Example Usage
-
-export async function handleSignOut() {
-    await UpdateLogOutTime();
-    await logOut();
 }

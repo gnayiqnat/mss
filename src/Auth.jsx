@@ -25,7 +25,7 @@ export default function Auth() {
     React.useEffect(() => {
         checkIfSignedIn().then((isSignedIn) => {
             if (isSignedIn == true) {
-                navigate('/success');
+                navigate('/dashboard');
             }
         });
     }, []);
@@ -43,7 +43,7 @@ export default function Auth() {
             }, 1000),
             animate(scope.current, { opacity: 0 }, { duration: 0.5 });
         setTimeout(() => {
-            navigate('/success');
+            navigate('/dashboard');
         }, 2500);
     }
 
@@ -75,7 +75,7 @@ export default function Auth() {
                         flexDirection: 'column',
 
                         width: '96vw',
-                        height: '96dvh',
+                        height: '85dvh',
                     }}
                 >
                     <>

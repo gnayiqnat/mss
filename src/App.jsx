@@ -19,6 +19,7 @@ import {
     Tab,
     Tabs,
     Toolbar,
+    Typography,
     styled,
 } from '@mui/material';
 import { motion } from 'framer-motion';
@@ -29,15 +30,36 @@ import Auth from './Auth.jsx';
 import { MaterialDesignContent, SnackbarProvider } from 'notistack';
 import { useMediaQuery } from 'react-responsive';
 import FourOFourPage from './404.jsx';
-import SignOut from './signOut.jsx';
-import Success from './success.jsx';
 import SetUsername from './setUsername.jsx';
 import SetPassword from './setPassword.jsx';
-import { handleSignOut } from './supabaseClient.jsx';
+import {
+    UpdateLogOutTime,
+    checkIfSignedIn,
+    getUsername,
+    logOut,
+} from './supabaseClient.jsx';
+import InputPage from './inputSection.jsx';
+import NewInputPage from './newInputPage.jsx';
+import Profile from './profile.jsx';
 // import PrivacyPolicy from './privacyPolicy.jsx';
 
 export default function App() {
     const isMobile = useMediaQuery({ query: 'max-width: 600px' });
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const routes = ['/', '/dashboard', '/profile', '/set-username', '/set-password']
+    const navigate = useNavigate('/');
+
+    useEffect(() => {
+        checkIfSignedIn().then((r) => {
+            if (r == true) {
+                setIsLoggedIn(true);
+            } else {
+                if (location.pathname != '/' && routes.includes(location.pathname)) {
+                    navigate('/');
+                }
+            }
+        });
+    }, [location.pathname]);
 
     const StyledMaterialDesignContent = styled(MaterialDesignContent)(() => ({
         '&.notistack-MuiContent-success': {
@@ -82,7 +104,8 @@ export default function App() {
     }));
 
     window.addEventListener('beforeunload', async function (event) {
-        handleSignOut();
+        await UpdateLogOutTime();
+        logOut();
     });
 
     return (
@@ -124,275 +147,110 @@ export default function App() {
                         ),
                     }}
                 >
-                    <BrowserRouter>
-                        {' '}
-                        <Routes>
-                            <Route path='/' element={<Auth />} />
-                            <Route path='/success' element={<Success />} />
-                            <Route path='/signout' element={<SignOut />} />
-                            <Route
-                                path='/set-username'
-                                element={<SetUsername />}
-                            />
-                            <Route
-                                path='/set-password'
-                                element={<SetPassword />}
-                            />
-                            {/*  <Route
+                    {' '}
+                    <NavBar isLoggedIn={isLoggedIn} />
+                    <Routes>
+                        <Route path='/' element={<Auth />} />
+                        <Route path='/dashboard' element={<NewInputPage />} />
+                        <Route path='profile' element={<Profile />} />
+
+                        <Route path='/set-username' element={<SetUsername />} />
+                        <Route path='/set-password' element={<SetPassword />} />
+                        {/*  <Route
                                 path='/privacypolicy'
                                 element={<PrivacyPolicy />}
                             /> */}
 
-                            <Route path='*' element={<FourOFourPage />} />
-                        </Routes>
-                    </BrowserRouter>
+                        <Route path='*' element={<FourOFourPage />} />
+                    </Routes>
                 </SnackbarProvider>
             </motion.div>{' '}
         </>
     );
 }
 
-function NavBar({ isLoggedIn, chatViewActive }) {
-    const navigate = useNavigate();
+function NavBar({ isLoggedIn }) {
+    const navigate = useNavigate()
+    const [username, setUsername] = useState('');
 
-    const CustomTabs = styled(Tabs)(({ theme }) => ({
-        backgroundColor: '#ffffff',
-        borderRadius: '40px',
-        padding: '3px 10px',
-        '& .MuiTabs-indicator': {
-            display: 'none',
-            backgroundColor: '#000000', // Hide the underline
-        },
-    }));
+    async function fetchUsername() {
+        let username;
 
-    const CustomTab = styled(Tab)(({ theme }) => ({
-        textTransform: 'none', // Remove uppercase transformation
-        fontWeight: theme.typography.fontWeightRegular, // Customize font weight
-    }));
+        await getUsername().then((r) => {
+            username = r;
+        });
 
-    const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
-
-    const location = useLocation();
-    const [value, setValue] = useState(0);
-
+        setUsername(username);
+    }
     useEffect(() => {
-        const urlList = ['/dashboard', '/chat', '/finance'];
-        const index = urlList.findIndex((path) => path === location.pathname);
-        if (index !== -1 && index !== false) {
-            setValue(index);
-        } else {
-            setValue(false);
+        if (isLoggedIn) {
+            fetchUsername();
         }
     }, [location.pathname]);
 
     return (
         <>
-            {!chatViewActive &&
-                (isLoggedIn ? (
-                    isMobile ? (
-                        <>
-                            <Paper
-                                sx={{
-                                    position: 'fixed',
-                                    bottom: 0,
-                                    left: 0,
-                                    right: 0,
-                                    marginBottom: 0.5,
-                                    zIndex: 3,
-                                }}
-                                elevation={0}
-                            >
-                                <BottomNavigation
-                                    showLabels={false}
-                                    sx={{
-                                        padding: '5px 0px',
-                                        color: '#C2CAD6',
-                                        '& .Mui-selected': {
-                                            color: 'primary.main',
-                                            opacity: 0.9,
-                                        },
+            <AppBar
+                elevation={0}
+                sx={{
+                    position: 'relative',
+                    backgroundColor: 'white',
+                    paddingTop: 1.75,
+                }}
+            >
+                <Toolbar
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                    }}
+                >
+                    <Avatar
+                        sx={{
+                            borderRadius: 0,
+                            width: '50px',
+                            height: '50px',
+                        }}
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                            navigate('/');
+                        }}
+                    />
 
-                                        '& .MuiSvgIcon-root': {
-                                            color: 'primary.main',
-                                            opacity: 0.9,
-                                        },
-                                    }}
-                                    value={value}
-                                    onChange={(event, newValue) => {
-                                        setValue(newValue);
-                                    }}
-                                >
-                                    <BottomNavigationAction
-                                        disableRipple
-                                        sx={{
-                                            color: 'primary.main',
-                                            opacity: 0.3,
-                                        }}
-                                        label='Home'
-                                        component={Link}
-                                        to='/dashboard'
-                                        icon={
-                                            <HomeRoundedIcon
-                                                sx={{ opacity: 0.3, mb: 0.5 }}
-                                            />
-                                        }
-                                    />
-                                    <BottomNavigationAction
-                                        disableRipple
-                                        sx={{
-                                            color: 'primary.main',
-                                            opacity: 0.3,
-                                        }}
-                                        label='Chat'
-                                        component={Link}
-                                        to='/chat'
-                                        icon={
-                                            <ChatRounded
-                                                sx={{ opacity: 0.3, mb: 0.5 }}
-                                            />
-                                        }
-                                    />
-                                    <BottomNavigationAction
-                                        disableRipple
-                                        sx={{
-                                            color: 'primary.main',
-                                            opacity: 0.3,
-                                        }}
-                                        label='Finance'
-                                        component={Link}
-                                        to='/finance'
-                                        icon={
-                                            <AccountBalanceWalletRounded
-                                                sx={{ opacity: 0.3, mb: 0.5 }}
-                                            />
-                                        }
-                                    />
-                                    <BottomNavigationAction
-                                        disableRipple
-                                        sx={{
-                                            color: 'primary.main',
-                                            opacity: 0.3,
-                                        }}
-                                        label='Profile'
-                                        component={Link}
-                                        to='/profile'
-                                        icon={
-                                            <Person
-                                                sx={{ opacity: 0.3, mb: 0.5 }}
-                                            />
-                                        }
-                                    />
-                                </BottomNavigation>
-                            </Paper>
-                        </>
-                    ) : (
+                    {isLoggedIn && (
                         <>
-                            <AppBar
-                                elevation={0}
+                            <Box
                                 sx={{
-                                    backgroundColor: 'white',
-                                    paddingTop: 1.75,
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    flexDirection: 'row',
+                                    gap: '0px 20px',
                                 }}
                             >
-                                <Toolbar
-                                    sx={{
-                                        display: 'flex',
-                                        justifyContent: 'space-between',
+                                <Typography sx={{ color: 'primary.main' }}>
+                                    {username}{' '}
+                                </Typography>
+                                <motion.div
+                                    initial={{ scale: 1 }}
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => {
+                                        navigate('/profile');
                                     }}
                                 >
                                     <Avatar
                                         sx={{
-                                            borderRadius: 0,
-                                            width: '50px',
-                                            height: '50px',
+                                            mr: 2,
+                                            backgroundColor: 'primary.main',
                                         }}
-                                        style={{ cursor: 'pointer' }}
-                                        onClick={() => {
-                                            navigate('/');
-                                        }}
-                                        src='/logo/logo.png'
                                     />
-
-                                    <Box>
-                                        <CustomTabs
-                                            value={value}
-                                            onChange={(event, newValue) => {
-                                                setValue(newValue);
-                                            }}
-                                            centered
-                                        >
-                                            <CustomTab
-                                                disableRipple
-                                                label='Home'
-                                                component={Link}
-                                                to='/dashboard'
-                                                sx={{
-                                                    fontSize: '1.1rem',
-                                                    textTransform: 'none',
-                                                }}
-                                            />{' '}
-                                            <CustomTab
-                                                disableRipple
-                                                label='Chat'
-                                                component={Link}
-                                                to='/chat'
-                                                sx={{
-                                                    fontSize: '1.1rem',
-                                                    textTransform: 'none',
-                                                }}
-                                            />{' '}
-                                            <CustomTab
-                                                disableRipple
-                                                label='Finance'
-                                                component={Link}
-                                                to='/finance'
-                                                sx={{
-                                                    fontSize: '1.1rem',
-                                                    textTransform: 'none',
-                                                }}
-                                            />
-                                        </CustomTabs>
-                                    </Box>
-                                    <motion.div
-                                        initial={{ scale: 1 }}
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
-                                        style={{ cursor: 'pointer' }}
-                                        onClick={() => {
-                                            navigate('/profile');
-                                        }}
-                                    >
-                                        <Avatar
-                                            sx={{
-                                                mr: 2,
-                                                backgroundColor: 'primary.main',
-                                            }}
-                                        />
-                                    </motion.div>
-                                </Toolbar>
-                            </AppBar>
+                                </motion.div>
+                            </Box>
                         </>
-                    )
-                ) : (
-                    <AppBar
-                        elevation={0}
-                        sx={{ backgroundColor: 'transparent' }}
-                    >
-                        <Toolbar>
-                            <Avatar
-                                sx={{
-                                    mt: 2,
-                                    borderRadius: 0,
-                                    width: '50px',
-                                    height: '50px',
-                                    opacity: 0.9,
-                                }}
-                                style={{ cursor: 'pointer' }}
-                                src='/logo/logo.png'
-                            />
-                        </Toolbar>
-                    </AppBar>
-                ))}
+                    )}
+                </Toolbar>
+            </AppBar>
         </>
     );
 }
