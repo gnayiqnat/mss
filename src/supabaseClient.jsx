@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { enqueueSnackbar } from 'notistack';
-
+import moment from 'moment';
 const supabaseUrl = import.meta.env.VITE_APP_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_APP_SUPABASE_KEY;
 
@@ -220,12 +220,32 @@ export async function UpdateLogOutTime(id) {
                 .eq('sign_out_time', '')
                 .select();
 
-                await supabase
+            await supabase
                 .from('user_sessions')
                 .update({ sign_out_time: currentTime })
                 .eq('sign_out_time', '')
                 .select();
         }
         console.error('Error in UpdateLogOutTime:', error);
+    }
+}
+
+export function calculateSessionStatus(signInTimeStr) {
+    // Define the sign-in time
+    const signInTime = moment(signInTimeStr, 'MMMM D, YYYY at h:mm A');
+
+    // Get the current time
+    const now = moment();
+
+    // Calculate the time difference
+    const duration = moment.duration(now.diff(signInTime));
+    const hours = Math.floor(duration.asHours());
+    const minutes = Math.floor(duration.asMinutes()) % 60; // Minutes remaining after hours
+
+    // Output the result
+    if (hours > 0) {
+        return `Active for ${hours} hours`;
+    } else {
+        return `Active for ${minutes} minutes`;
     }
 }

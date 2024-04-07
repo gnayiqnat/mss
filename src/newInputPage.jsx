@@ -12,7 +12,11 @@ import {
 import { motion } from 'framer-motion';
 import { createContext, useContext, useEffect, useState } from 'react';
 import InputSection from './inputSection';
-import { UpdateLogOutTime, getStudentDetails } from './supabaseClient';
+import {
+    UpdateLogOutTime,
+    calculateSessionStatus,
+    getStudentDetails,
+} from './supabaseClient';
 import { useMediaQuery } from 'react-responsive';
 import { enqueueSnackbar } from 'notistack';
 
@@ -62,7 +66,7 @@ export default function NewInputPage() {
                     flexDirection: 'column',
                     width: '100vw',
                     height: '80dvh',
-                    gap: '25px'
+                    gap: '25px',
                 }}
             >
                 <Box
@@ -83,40 +87,40 @@ export default function NewInputPage() {
                     </Typography>
                     {studentDetailsList != null &&
                         studentDetailsList.length < 8 && (
-                                <Button
-                                    variant='outlined'
-                                    sx={{
-                                        borderRadius: '10px',
-                                        padding: '8px 20px',
-                                        paddingLeft: '15px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '0px 5px',
+                            <Button
+                                variant='outlined'
+                                sx={{
+                                    borderRadius: '10px',
+                                    padding: '8px 20px',
+                                    paddingLeft: '15px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0px 5px',
 
-                                        backgroundColor: 'primary.main',
-                                    }}
-                                    onClick={() => {
-                                        setDrawerOpen(true);
+                                    backgroundColor: 'primary.main',
+                                }}
+                                onClick={() => {
+                                    setDrawerOpen(true);
+                                }}
+                            >
+                                <AddRounded
+                                    fontSize='small'
+                                    sx={{ color: 'secondary.main' }}
+                                />{' '}
+                                <Typography
+                                    sx={{
+                                        color: 'secondary.main',
+                                        mt: 0.17,
+                                        textTransform: 'none',
+                                        fontSize: '0.9rem',
+
+                                        fontFamily: 'Nunito',
+                                        fontWeight: '700',
                                     }}
                                 >
-                                    <AddRounded
-                                        fontSize='small'
-                                        sx={{ color: 'secondary.main' }}
-                                    />{' '}
-                                    <Typography
-                                        sx={{
-                                            color: 'secondary.main',
-                                            mt: 0.17,
-                                            textTransform: 'none',
-                                            fontSize: '0.9rem',
-
-                                            fontFamily: 'Nunito',
-                                            fontWeight: '700',
-                                        }}
-                                    >
-                                        Add Pupil
-                                    </Typography>
-                                </Button>
+                                    Add Pupil
+                                </Typography>
+                            </Button>
                         )}
                 </Box>
                 <Box
@@ -169,6 +173,7 @@ export default function NewInputPage() {
                                         >
                                             {e.student_name}
                                         </Typography>
+
                                         <Box
                                             sx={{
                                                 backgroundColor:
@@ -184,45 +189,67 @@ export default function NewInputPage() {
                                             {e.student_class}
                                         </Box>
                                     </Box>
-
                                     <Box
                                         sx={{
                                             display: 'flex',
                                             flexDirection: 'row',
                                             alignItems: 'center',
-                                            color: '#d32f2f',
+                                            gap: '0px 20px',
                                         }}
                                     >
-                                        <Button
-                                            variant='outlined'
+                                        <Typography
                                             sx={{
-                                                borderRadius: '10px',
-                                                borderColor: '#d32f2f',
-                                                backgroundColor: '#d32f2f40',
+                                                color: 'primary.main',
+                                                opacity: 0.5,
+                                                fontFamily: 'Nunito',
+                                                fontWeight: '600',
+                                                fontSize: '1rem',
                                             }}
-                                            onClick={() =>
-                                                handleXClick(
-                                                    e.id
-                                                        ? e.id
-                                                        : enqueueSnackbar(
-                                                              'No row ID. Please contact your organization.',
-                                                              {
-                                                                  variant:
-                                                                      'error',
-                                                              }
-                                                          )
-                                                )
-                                            }
                                         >
-                                            <Typography
+                                            {calculateSessionStatus(
+                                                e.sign_in_time
+                                            )}
+                                        </Typography>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                color: '#d32f2f',
+                                            }}
+                                        >
+                                            <Button
+                                                variant='outlined'
                                                 sx={{
-                                                    color: '#d32f2f',
-                                                    textTransform: 'none',
+                                                    borderRadius: '10px',
+                                                    borderColor: '#d32f2f',
+                                                    backgroundColor:
+                                                        '#d32f2f40',
                                                 }}
+                                                onClick={() =>
+                                                    handleXClick(
+                                                        e.id
+                                                            ? e.id
+                                                            : enqueueSnackbar(
+                                                                  'No row ID. Please contact your organization.',
+                                                                  {
+                                                                      variant:
+                                                                          'error',
+                                                                  }
+                                                              )
+                                                    )
+                                                }
                                             >
-                                                End Session
-                                            </Typography>
-                                        </Button>
+                                                <Typography
+                                                    sx={{
+                                                        color: '#d32f2f',
+                                                        textTransform: 'none',
+                                                    }}
+                                                >
+                                                    End Session
+                                                </Typography>
+                                            </Button>
+                                        </Box>
                                     </Box>
                                 </Card>
                             </motion.div>
