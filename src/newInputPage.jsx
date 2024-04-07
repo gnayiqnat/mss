@@ -235,6 +235,7 @@ export default function NewInputPage() {
 }
 
 function AddStudentDrawer({ drawerOpen, setDrawerOpen }) {
+    const isMobile = useMediaQuery({query: '(max-width: 600px)'})
     return (
         <>
             <Drawer
@@ -245,7 +246,9 @@ function AddStudentDrawer({ drawerOpen, setDrawerOpen }) {
             >
                 <Box
                     sx={{
-                        padding: '80px 50px',
+                        mt: 5,
+                        padding: isMobile ? '30px 0px' :'80px 50px',
+                        width: '100vw',
                     }}
                 >
                     <Typography
@@ -254,7 +257,6 @@ function AddStudentDrawer({ drawerOpen, setDrawerOpen }) {
                             fontFamily: 'Nunito',
                             fontWeight: '600',
                             fontSize: '1.5rem',
-                            mt: -4,
                             mb: 7,
                         }}
                     >

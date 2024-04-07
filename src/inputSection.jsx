@@ -21,9 +21,11 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalContext } from './newInputPage';
+import { useMediaQuery } from 'react-responsive';
 
 export default function InputSection() {
     const navigate = useNavigate();
+    const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
 
     const [isSessionRunning, setIsSessionRunning] = useState(false);
 
@@ -42,9 +44,9 @@ export default function InputSection() {
 
     async function handleSuccess() {
         setIsSessionRunning(true);
-        
-        studentName.current = ''
-        studentName.current == '' && setSelectedClass('')
+
+        studentName.current = '';
+        studentName.current == '' && setSelectedClass('');
     }
 
     function handleSubmit() {
@@ -91,8 +93,9 @@ export default function InputSection() {
                     sx={{
                         display: 'flex',
                         justifyContent: 'center',
+                        flexDirection: isMobile && 'column',
                         alignItems: 'center',
-                        gap: '0px 13px',
+                        gap: '20px 13px',
                     }}
                 >
                     <TextField
@@ -102,13 +105,13 @@ export default function InputSection() {
                         onChange={(e) => {
                             studentName.current = e.target.value;
                         }}
-                        sx={{ width: '300px' }}
+                        sx={{ width: isMobile ? '90vw' : '300px' }}
                         label='Student name'
                     ></TextField>
                     <TextField
                         value={selectedClass}
                         onChange={handleSelectChange}
-                        sx={{ width: '100px' }}
+                        sx={{ width: isMobile ? '90vw' : '100px' }}
                         select
                         label='Grade'
                     >
@@ -126,15 +129,19 @@ export default function InputSection() {
 }
 
 function SubmitButton({ handleSubmit }) {
+    const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     const setButtonClicked = useGlobalContext();
     return (
         <Button
             sx={{
+                position: isMobile &&'absolute',
+                bottom: isMobile && '10px',
                 mt: 2,
                 backgroundColor: 'primary.main',
                 padding: '15px',
-                width: '100%',
-                maxWidth: '425px',
+                width: '425px',
+                maxWidth: '95vw',
+
                 borderRadius: '20px',
                 '&:hover': {
                     backgroundColor: 'primary.main',
