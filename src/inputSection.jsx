@@ -106,13 +106,13 @@ export default function InputSection({ setDrawerOpen }) {
                         onChange={(e) => {
                             setStudentName(e.target.value);
                         }}
-                        sx={{ width: isMobile ? '100vw' : '300px' }}
+                        sx={{ width: isMobile ? '90vw' : '300px' }}
                         label='Student name'
                     ></TextField>
                     <TextField
                         value={selectedClass}
                         onChange={handleSelectChange}
-                        sx={{ width: isMobile ? '100vw' : '100px' }}
+                        sx={{ width: isMobile ? '90vw' : '100px' }}
                         select
                         label='Grade'
                     >
