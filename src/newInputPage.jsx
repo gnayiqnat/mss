@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import { createContext, useContext, useEffect, useState } from 'react';
+import CachedTwoToneIcon from '@mui/icons-material/CachedTwoTone';
 import InputSection from './inputSection';
 import {
     UpdateLogOutTime,
@@ -87,40 +88,81 @@ export default function NewInputPage() {
                     </Typography>
                     {studentDetailsList != null &&
                         studentDetailsList.length < 8 && (
-                            <Button
-                                variant='outlined'
-                                sx={{
-                                    borderRadius: '10px',
-                                    padding: '8px 20px',
-                                    paddingLeft: '15px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '0px 5px',
-
-                                    backgroundColor: 'primary.main',
-                                }}
-                                onClick={() => {
-                                    setDrawerOpen(true);
-                                }}
-                            >
-                                <AddRounded
-                                    fontSize='small'
-                                    sx={{ color: 'secondary.main' }}
-                                />{' '}
-                                <Typography
+                            <Box sx={{ display: 'flex', flexDirection: 'row', gap: '0px 10px' }}>
+                                <Button
+                                    variant='outlined'
                                     sx={{
-                                        color: 'secondary.main',
-                                        mt: 0.17,
-                                        textTransform: 'none',
-                                        fontSize: '0.9rem',
+                                        borderRadius: '10px',
+                                        borderColor: 'primary.main',
+                                        borderWidth: '1.5px',
+                                        padding: '8px 20px',
+                                        paddingLeft: '15px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '0px 5px',
 
-                                        fontFamily: 'Nunito',
-                                        fontWeight: '700',
+                                        backgroundColor: 'transparent',
+                                        '&:hover': {
+                                            borderWidth: '1.5px'
+                                        },
+                                    }}
+                                    onClick={() => {
+                                        setButtonClicked(true)
                                     }}
                                 >
-                                    Add Pupil
-                                </Typography>
-                            </Button>
+                                    <CachedTwoToneIcon
+                                        fontSize='small'
+                                        sx={{ color: 'primary.main' }}
+                                    />{' '}
+                                    <Typography
+                                        sx={{
+                                            color: 'primary.main',
+                                            mt: 0.17,
+                                            textTransform: 'none',
+                                            fontSize: '0.9rem',
+
+                                            fontFamily: 'Nunito',
+                                            fontWeight: '700',
+                                        }}
+                                    >
+                                       Refresh
+                                    </Typography>
+                                </Button>
+                                <Button
+                                    variant='outlined'
+                                    sx={{
+                                        borderRadius: '10px',
+                                        padding: '8px 20px',
+                                        paddingLeft: '15px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '0px 5px',
+
+                                        backgroundColor: 'primary.main',
+                                    }}
+                                    onClick={() => {
+                                        setDrawerOpen(true);
+                                    }}
+                                >
+                                    <AddRounded
+                                        fontSize='small'
+                                        sx={{ color: 'secondary.main' }}
+                                    />{' '}
+                                    <Typography
+                                        sx={{
+                                            color: 'secondary.main',
+                                            mt: 0.17,
+                                            textTransform: 'none',
+                                            fontSize: '0.9rem',
+
+                                            fontFamily: 'Nunito',
+                                            fontWeight: '700',
+                                        }}
+                                    >
+                                        Add Pupil
+                                    </Typography>
+                                </Button>
+                            </Box>
                         )}
                 </Box>
                 <Box
