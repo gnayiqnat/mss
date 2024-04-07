@@ -52,7 +52,7 @@ export default function InputSection({ setDrawerOpen }) {
 
         setStudentName('');
         setSelectedClass('');
-        studentClassRef.current = ''
+        studentClassRef.current = '';
 
         setIsLoading(false);
     }
@@ -198,55 +198,63 @@ function SubmitButton({ handleSubmit, isLoading }) {
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     const setButtonClicked = useGlobalContext();
     return (
-        <motion.div
-            initial={{ scale: 1 }}
-            whileHover={{ scale: 0.95 }}
-            whileTap={{ scale: 0.8 }}
+        <Box
+            sx={{
+                position: isMobile && 'absolute',
+                bottom: isMobile && '10px',
+                width: '98vw',
+                justifyContent: 'center',
+                display: 'flex',
+            }}
         >
-            <Button
-                sx={{
-                    position: isMobile && 'absolute',
-                    bottom: isMobile && '10px',
-                    mt: 2,
-                    mb: 0.5,
-                    backgroundColor: 'primary.main',
-                    padding: '15px',
-                    width: '425px',
-                    maxWidth: '93vw',
-
-                    borderRadius: '20px',
-                    '&:hover': {
-                        backgroundColor: 'primary.main',
-                    },
-                }}
-                onClick={() => {
-                    handleSubmit();
-                    setButtonClicked(true);
-                }}
+            <motion.div
+                initial={{ scale: 1 }}
+                whileHover={{ scale: 0.95 }}
+                whileTap={{ scale: 0.8 }}
             >
-                {isLoading ? (
-                    <CircularProgress
-                        disableShrink
-                        size='1.69rem'
-                        sx={{
-                            color: 'hsl(216, 18%, 85%)',
-                        }}
-                    />
-                ) : (
-                    <Typography
-                        sx={{
-                            opacity: 0.7,
-                            fontFamily: 'Nunito',
-                            textTransform: 'none',
-                            color: 'hsl(216, 18%, 85%)',
-                            fontWeight: '600',
-                            fontSize: '18px',
-                        }}
-                    >
-                        Submit
-                    </Typography>
-                )}
-            </Button>
-        </motion.div>
+                <Button
+                    sx={{
+                        mt: 2,
+                        mb: 0.5,
+                        backgroundColor: 'primary.main',
+                        padding: '15px',
+                        width: '425px',
+                        maxWidth: '93vw',
+
+                        borderRadius: '20px',
+                        '&:hover': {
+                            backgroundColor: 'primary.main',
+                        },
+                    }}
+                    onClick={() => {
+                        handleSubmit();
+                        setButtonClicked(true);
+                    }}
+                >
+                    {isLoading ? (
+                        <CircularProgress
+                            disableShrink
+                            size='1.69rem'
+                            sx={{
+                                color: 'hsl(216, 18%, 85%)',
+                            }}
+                        />
+                    ) : (
+                        <Typography
+                            sx={{
+                                opacity: 0.7,
+                                fontFamily: 'Nunito',
+                                textTransform: 'none',
+                                color: 'hsl(216, 18%, 85%)',
+                                fontWeight: '600',
+                                fontSize: '18px',
+                            }}
+                        >
+                            Submit
+                        </Typography>
+                    )}
+                </Button>
+            </motion.div>
+        </Box>
     );
 }
