@@ -24,7 +24,7 @@ export default function NewInputPage() {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [studentDetailsList, setStudentDetailsList] = useState('');
     const [buttonClicked, setButtonClicked] = useState(false);
-
+    const isMobile = useMediaQuery({ query: '(max-width: 600px) ' });
     useEffect(() => {
         if (studentDetailsList == '') {
             fetchStudents();
@@ -56,35 +56,33 @@ export default function NewInputPage() {
             </GlobalContext.Provider>
             <Box
                 sx={{
-                    mt: 5,
+                    mt: isMobile ? 7 : 5,
+                    display: 'flex',
                     alignItems: 'center',
                     flexDirection: 'column',
-                    width: '96vw',
+                    width: '100vw',
                     height: '80dvh',
+                    gap: '25px'
                 }}
             >
                 <Box
                     sx={{
-                        margin: '0 auto',
+                        width: '90vw',
                         maxWidth: '700px',
                         display: 'flex',
                         justifyContent: 'space-between',
-                        gap: '10px 0px',
-                        mb: 4,
+                        mb: 3,
+                        ml: 2,
+                        margin: '0 auto',
                     }}
                 >
                     <Typography
-                        sx={{ ml: 2, fontFamily: 'Nunito', fontSize: '1.5rem' }}
+                        sx={{ fontFamily: 'Nunito', fontSize: '1.5rem' }}
                     >
                         Pupils ({studentDetailsList.length})
                     </Typography>
                     {studentDetailsList != null &&
                         studentDetailsList.length < 8 && (
-                            <Box
-                                sx={{
-                                    mt: -1,
-                                }}
-                            >
                                 <Button
                                     variant='outlined'
                                     sx={{
@@ -94,7 +92,6 @@ export default function NewInputPage() {
                                         display: 'flex',
                                         alignItems: 'center',
                                         gap: '0px 5px',
-                                        mr: 2,
 
                                         backgroundColor: 'primary.main',
                                     }}
@@ -120,11 +117,11 @@ export default function NewInputPage() {
                                         Add Pupil
                                     </Typography>
                                 </Button>
-                            </Box>
                         )}
                 </Box>
                 <Box
                     sx={{
+                        width: '95vw',
                         maxWidth: '700px',
                         margin: '0 auto',
                         display: 'flex',
@@ -260,7 +257,7 @@ function AddStudentDrawer({ drawerOpen, setDrawerOpen }) {
                             position: 'absolute',
                             top: '0px',
                             left: isMobile ? '0px' : '105px',
-                            padding: isMobile ? '10px' :'20px',
+                            padding: isMobile ? '10px' : '20px',
                         }}
                     >
                         <IconButton
