@@ -192,7 +192,7 @@ function NavBar({ isLoggedIn }) {
         setUsername(username);
     }
     useEffect(() => {
-        if (isLoggedIn) {
+        if (isLoggedIn && username == '') {
             fetchUsername();
         }
     }, [location.pathname]);
