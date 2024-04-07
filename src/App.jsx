@@ -178,7 +178,7 @@ export default function App() {
     );
 }
 
-function NavBar({ isLoggedIn }) {
+function NavBar() {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
 
@@ -192,9 +192,17 @@ function NavBar({ isLoggedIn }) {
         setUsername(username);
     }
     useEffect(() => {
-        if (isLoggedIn && username == '') {
-            fetchUsername();
-        }
+        checkIfSignedIn().then((r) => {
+            if (r == true) {
+                if (username == '') {
+                    fetchUsername();
+                }
+            } else {
+                if (username != '') {
+                    setUsername('');
+                }
+            }
+        });
     }, [location.pathname]);
 
     return (
