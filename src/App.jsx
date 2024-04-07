@@ -202,7 +202,7 @@ function NavBar({ isLoggedIn }) {
             <AppBar
                 elevation={0}
                 sx={{
-                    position: 'relative',
+                    position: location.pathname == '/dashboard' && 'relative',
                     backgroundColor: 'white',
                     paddingTop: 1.75,
                 }}

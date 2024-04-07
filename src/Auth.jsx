@@ -74,8 +74,8 @@ export default function Auth() {
                         alignItems: 'center',
                         flexDirection: 'column',
 
-                        width: '96vw',
-                        height: '75dvh',
+                        width: '100vw',
+                        height: '100dvh',
                     }}
                 >
                     <>

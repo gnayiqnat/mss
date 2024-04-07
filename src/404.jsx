@@ -13,14 +13,15 @@ export default function FourOFourPage() {
             >
                 <Box
                     sx={{
+                        overflow: 'hidden',
                         display: 'flex',
-                        height: '95dvh',
-                        width: '100vw',
+                        height: '100dvh',
+
                         justifyContent: 'center',
                         alignItems: 'center',
                     }}
                 >
-                    <Box sx={{ mt: -10}}>
+                    <Box>
                         <Typography
                             variant={isMobile ? 'h2' : 'h1'}
                             align='center'
