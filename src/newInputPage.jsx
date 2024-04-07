@@ -42,8 +42,12 @@ export default function NewInputPage() {
         }
     }, [buttonClicked]);
 
-    function fetchStudents() {
-        getStudentDetails().then((r) => setStudentDetailsList(r));
+    async function fetchStudents() {
+        await getStudentDetails().then((r) => setStudentDetailsList(r));
+
+        if (studentDetailsList.length <= 8) {
+            setDrawerOpen(false)
+        }
     }
 
     async function handleXClick(e) {
@@ -67,8 +71,8 @@ export default function NewInputPage() {
                     display: 'flex',
                     alignItems: 'center',
                     flexDirection: 'column',
-                    width: '100vw',
-                    height: '80dvh',
+                    width: '99vw',
+                    height: '100dvh',
                     gap: '25px',
                 }}
             >
@@ -88,76 +92,76 @@ export default function NewInputPage() {
                     >
                         Pupils ({studentDetailsList.length})
                     </Typography>
-                    {studentDetailsList != null &&
-                        studentDetailsList.length < 8 && (
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    gap: '0px 10px',
-                                }}
+                    {studentDetailsList != null && (
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                gap: '0px 10px',
+                            }}
+                        >
+                            <motion.div
+                                initial={{ scale: 1 }}
+                                whileHover={{ scale: 0.95 }}
+                                whileTap={{ scale: 0.8 }}
                             >
-                                <motion.div
-                                    initial={{ scale: 1 }}
-                                    whileHover={{ scale: 0.95 }}
-                                    whileTap={{ scale: 0.8 }}
-                                >
-                                    {isMobile500 ? (
-                                        <>
-                                            <IconButton
-                                                onClick={() => {
-                                                    setButtonClicked(true);
-                                                }}
-                                            >
-                                                <CachedTwoToneIcon
-                                                    sx={{
-                                                        color: 'primary.main',
-                                                    }}
-                                                />{' '}
-                                            </IconButton>
-                                        </>
-                                    ) : (
-                                        <Button
-                                            variant='outlined'
-                                            sx={{
-                                                borderRadius: '10px',
-                                                borderColor: 'primary.main',
-                                                borderWidth: '1.5px',
-                                                padding: '8px 20px',
-                                                paddingLeft: '15px',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '0px 5px',
-
-                                                backgroundColor: 'transparent',
-                                                '&:hover': {
-                                                    borderWidth: '1.5px',
-                                                },
-                                            }}
+                                {isMobile500 ? (
+                                    <>
+                                        <IconButton
                                             onClick={() => {
                                                 setButtonClicked(true);
                                             }}
                                         >
                                             <CachedTwoToneIcon
-                                                fontSize='small'
-                                                sx={{ color: 'primary.main' }}
-                                            />{' '}
-                                            <Typography
                                                 sx={{
                                                     color: 'primary.main',
-                                                    mt: 0.17,
-                                                    textTransform: 'none',
-                                                    fontSize: '0.9rem',
-
-                                                    fontFamily: 'Nunito',
-                                                    fontWeight: '700',
                                                 }}
-                                            >
-                                                Refresh
-                                            </Typography>
-                                        </Button>
-                                    )}
-                                </motion.div>{' '}
+                                            />{' '}
+                                        </IconButton>
+                                    </>
+                                ) : (
+                                    <Button
+                                        variant='outlined'
+                                        sx={{
+                                            borderRadius: '10px',
+                                            borderColor: 'primary.main',
+                                            borderWidth: '1.5px',
+                                            padding: '8px 20px',
+                                            paddingLeft: '15px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '0px 5px',
+
+                                            backgroundColor: 'transparent',
+                                            '&:hover': {
+                                                borderWidth: '1.5px',
+                                            },
+                                        }}
+                                        onClick={() => {
+                                            setButtonClicked(true);
+                                        }}
+                                    >
+                                        <CachedTwoToneIcon
+                                            fontSize='small'
+                                            sx={{ color: 'primary.main' }}
+                                        />
+                                        <Typography
+                                            sx={{
+                                                color: 'primary.main',
+                                                mt: 0.17,
+                                                textTransform: 'none',
+                                                fontSize: '0.9rem',
+
+                                                fontFamily: 'Nunito',
+                                                fontWeight: '700',
+                                            }}
+                                        >
+                                            Refresh
+                                        </Typography>
+                                    </Button>
+                                )}
+                            </motion.div>{' '}
+                            {studentDetailsList.length < 8 && (
                                 <motion.div
                                     initial={{ scale: 1 }}
                                     whileHover={{ scale: 0.95 }}
@@ -218,8 +222,9 @@ export default function NewInputPage() {
                                         </Button>
                                     )}
                                 </motion.div>
-                            </Box>
-                        )}
+                            )}
+                        </Box>
+                    )}
                 </Box>
                 <Box
                     sx={{
