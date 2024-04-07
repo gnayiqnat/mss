@@ -52,6 +52,7 @@ export default function InputSection({ setDrawerOpen }) {
 
         setStudentName('');
         setSelectedClass('');
+        studentClassRef.current = ''
 
         setIsLoading(false);
     }
