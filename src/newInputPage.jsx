@@ -250,14 +250,16 @@ export default function NewInputPage() {
                                 <Card
                                     variant='outlined'
                                     sx={{
-                                        padding: '13px 30px',
+                                        padding: isMobile ? '13px 20px' :'13px 30px',
                                         color: 'primary.main',
 
                                         display: 'flex',
                                         justifyContent: 'space-between',
-                                        alignItems: 'center',
-                                        flexDirection: 'row',
-                                        gap: '0px 15px',
+                                        alignItems: !isMobile && 'center',
+                                        flexDirection: isMobile
+                                            ? 'column'
+                                            : 'row',
+                                        gap: '26px 15px',
                                         borderRadius: '15px',
                                     }}
                                 >
@@ -265,40 +267,48 @@ export default function NewInputPage() {
                                         sx={{
                                             display: 'flex',
                                             flexDirection: 'row',
+                                            justifyContent: 'space-between',
                                             alignItems: 'center',
-                                            gap: '13px',
                                         }}
                                     >
-                                        <Typography
-                                            sx={{
-                                                color: 'primary.main',
-                                                fontFamily: 'Nunito',
-                                                fontWeight: '700',
-                                                fontSize: '1.1rem',
-                                            }}
-                                        >
-                                            {e.student_name}
-                                        </Typography>
-
                                         <Box
                                             sx={{
-                                                backgroundColor:
-                                                    'secondary.main',
-                                                color: 'primary.main',
-                                                fontFamily: 'Nunito',
-                                                fontSize: '0.8rem',
-                                                fontWeight: '700',
-                                                padding: '5px 13px',
-                                                borderRadius: '30px',
+                                                display: 'flex',
+                                                gap: '0px 13px',
                                             }}
                                         >
-                                            {e.student_class}
+                                            <Typography
+                                                sx={{
+                                                    color: 'primary.main',
+                                                    fontFamily: 'Nunito',
+                                                    fontWeight: '700',
+                                                    fontSize: '1.1rem',
+                                                }}
+                                            >
+                                                {e.student_name}
+                                            </Typography>
+
+                                            <Box
+                                                sx={{
+                                                    backgroundColor:
+                                                        'secondary.main',
+                                                    color: 'primary.main',
+                                                    fontFamily: 'Nunito',
+                                                    fontSize: '0.8rem',
+                                                    fontWeight: '700',
+                                                    padding: '5px 13px',
+                                                    borderRadius: '30px',
+                                                }}
+                                            >
+                                                {e.student_class}
+                                            </Box>
                                         </Box>
                                     </Box>
                                     <Box
                                         sx={{
                                             display: 'flex',
                                             flexDirection: 'row',
+                                            justifyContent: 'end',
                                             alignItems: 'center',
                                             gap: '0px 20px',
                                         }}
@@ -310,12 +320,14 @@ export default function NewInputPage() {
                                                 fontFamily: 'Nunito',
                                                 fontWeight: '600',
                                                 fontSize: '1rem',
+                                                whiteSpace: 'nowrap',
                                             }}
                                         >
                                             {calculateSessionStatus(
                                                 e.sign_in_time
                                             )}
                                         </Typography>
+
                                         <Box
                                             sx={{
                                                 display: 'flex',
@@ -350,6 +362,7 @@ export default function NewInputPage() {
                                                     sx={{
                                                         color: '#d32f2f',
                                                         textTransform: 'none',
+                                                        whiteSpace: 'nowrap',
                                                     }}
                                                 >
                                                     End Session
