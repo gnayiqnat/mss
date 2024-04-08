@@ -563,6 +563,7 @@ function AddStudentDrawer({ drawerOpen, setDrawerOpen }) {
                                     fontWeight: '600',
                                     fontSize: '1.5rem',
                                     mb: 7,
+                                    mt: isMobile && 7,
                                 }}
                             >
                                 Add new student
