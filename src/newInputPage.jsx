@@ -138,6 +138,7 @@ export default function NewInputPage() {
                                     </>
                                 ) : (
                                     <Button
+                                    disableRipple
                                         variant='outlined'
                                         sx={{
                                             borderRadius: '10px',
@@ -201,6 +202,7 @@ export default function NewInputPage() {
                                         </>
                                     ) : (
                                         <Button
+                                        disableRipple
                                             variant='outlined'
                                             sx={{
                                                 borderRadius: '10px',
