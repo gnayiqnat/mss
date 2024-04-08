@@ -45,7 +45,7 @@ export default function NewInputPage() {
                 () => {
                     animate(
                         scope.current,
-                        { rotateZ: buttonClicked ? 360 : 0 },
+                        { rotateZ: buttonClicked ? -360 : 0 },
                         { duration: 1 },
                         { ease: 'linear' }
                     );
