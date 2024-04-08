@@ -101,13 +101,14 @@ export default function NewInputPage() {
                         maxWidth: '700px',
                         display: 'flex',
                         justifyContent: 'space-between',
+                        align:'center',
                         mb: 3,
                         ml: 2,
                         margin: '0 auto',
                     }}
                 >
                     <Typography
-                        sx={{ fontFamily: 'Nunito', fontSize: '1.5rem' }}
+                        sx={{ fontFamily: 'Nunito', fontSize: isMobile ? '1.4rem' :'1.5rem', mt: isMobile && 0.5, }}
                     >
                         Pupils ({studentDetailsList.length})
                     </Typography>
