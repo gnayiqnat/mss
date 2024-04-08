@@ -30,9 +30,6 @@ export default function InputSection({ setDrawerOpen, grades, setGrades }) {
     const navigate = useNavigate();
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
 
-    const [isSessionRunning, setIsSessionRunning] = useState(false);
-
-
     const [studentName, setStudentName] = useState('');
 
     const [selectedClass, setSelectedClass] = useState(''); // State to store the currently selected value
@@ -47,8 +44,15 @@ export default function InputSection({ setDrawerOpen, grades, setGrades }) {
     };
 
     async function handleSuccess() {
-        setIsSessionRunning(true);
-        enqueueSnackbar('Student added', { variant: 'success' });
+        isMobile
+            ? enqueueSnackbar('Student added', {
+                  variant: 'success',
+                  preventDuplicate: true,
+              })
+            : enqueueSnackbar('Student added', {
+                  variant: 'success',
+                  preventDuplicate: true,
+              });
 
         setStudentName('');
         setSelectedClass('');
@@ -58,28 +62,20 @@ export default function InputSection({ setDrawerOpen, grades, setGrades }) {
     }
 
     function handleSubmit() {
+        formRef.current.reportValidity();
         setIsLoading(true);
         if (studentName && studentClassRef.current) {
             LogSignInTime(studentName, studentClassRef.current).then((r) => {
-                r
-                    ? enqueueSnackbar(r, {
-                          variant: 'error',
-                          preventDuplicate: true,
-                      })
-                    : handleSuccess();
+                r ? console.log(r) : handleSuccess();
             });
         } else {
-            enqueueSnackbar('Fields must not be empty', {
-                variant: 'error',
-                preventDuplicate: true,
-            });
             setIsLoading(false);
         }
 
         getStudentDetails();
     }
 
-
+    const formRef = useRef();
     return (
         <>
             <Box
@@ -91,16 +87,18 @@ export default function InputSection({ setDrawerOpen, grades, setGrades }) {
                     flexDirection: 'column',
                 }}
             >
-                <Box
-                    sx={{
+                <form
+                    ref={formRef}
+                    style={{
                         display: 'flex',
                         justifyContent: 'center',
-                        flexDirection: isMobile && 'column',
+                        flexDirection: isMobile ? 'column' : 'row',
                         alignItems: 'center',
                         gap: '20px 13px',
                     }}
                 >
                     <TextField
+                        required
                         onKeyDown={(e) => {
                             e.key === 'Enter' && handleSubmit();
                         }}
@@ -112,6 +110,7 @@ export default function InputSection({ setDrawerOpen, grades, setGrades }) {
                         label='Student name'
                     ></TextField>
                     <TextField
+                        required
                         value={selectedClass}
                         onChange={handleSelectChange}
                         sx={{ width: isMobile ? '90vw' : '130px' }}
@@ -119,9 +118,9 @@ export default function InputSection({ setDrawerOpen, grades, setGrades }) {
                         label='Grade'
                         SelectProps={{
                             MenuProps: {
-                              sx: { height: "300px" },
+                                sx: { height: '300px' },
                             },
-                          }}
+                        }}
                     >
                         {grades.map((option, i) => (
                             <MenuItem key={i} value={option}>
@@ -129,10 +128,11 @@ export default function InputSection({ setDrawerOpen, grades, setGrades }) {
                             </MenuItem>
                         ))}
                     </TextField>
-                </Box>
+                </form>
                 <SubmitButton
                     handleSubmit={handleSubmit}
                     isLoading={isLoading}
+                    formRef={formRef}
                 />
                 {/* {isMobile ? (
                     <Box
@@ -211,6 +211,7 @@ function SubmitButton({ handleSubmit, isLoading }) {
                 whileTap={{ scale: 0.8 }}
             >
                 <Button
+                    type='submit'
                     sx={{
                         mt: 2,
                         mb: 0.5,

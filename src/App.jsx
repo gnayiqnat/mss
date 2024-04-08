@@ -15,6 +15,7 @@ import {
     BottomNavigation,
     BottomNavigationAction,
     Box,
+    Button,
     Paper,
     Tab,
     Tabs,
@@ -27,7 +28,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import Auth from './Auth.jsx';
 
-import { MaterialDesignContent, SnackbarProvider } from 'notistack';
+import { MaterialDesignContent, SnackbarProvider, closeSnackbar } from 'notistack';
 import { useMediaQuery } from 'react-responsive';
 import FourOFourPage from './404.jsx';
 import SetUsername from './setUsername.jsx';
@@ -127,6 +128,18 @@ export default function App() {
                 transition={{ duration: 0.5, delay: 0.5 }}
             >
                 <SnackbarProvider
+                 action={(key) => (
+                    <Button
+                        onClick={() => closeSnackbar(key)}
+                        style={{
+                            height: '100%',
+                            left: 0,
+                            position: 'absolute',
+                            top: 0,
+                            width: '100%'
+                        }}
+                        styleType="link"
+                    />)}
                     transitionDuration={{ enter: 200, exit: 200 }}
                     disableWindowBlurListener={true}
                     autoHideDuration={3000}
@@ -167,7 +180,10 @@ export default function App() {
 
                         <Route path='/set-username' element={<SetUsername />} />
                         <Route path='/set-password' element={<SetPassword />} />
-                        <Route path='/forgot-password' element={<ForgotPassword />} />
+                        <Route
+                            path='/forgot-password'
+                            element={<ForgotPassword />}
+                        />
                         {/*  <Route
                                 path='/privacypolicy'
                                 element={<PrivacyPolicy />}

@@ -66,6 +66,7 @@ export default function Auth() {
         } else {
             enqueueSnackbar('Fields cannot be empty', {
                 variant: 'error',
+                preventDuplicate: true,
             });
         }
         setTimeout(() => {
