@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { checkIfSignedIn, getEmail, setUsername } from './supabaseClient';
+import {
+    checkIfSignedIn,
+    getEmail,
+    getUsername,
+    setUsername,
+} from './supabaseClient';
 import {
     Box,
     Button,
@@ -36,7 +41,10 @@ export default function SetUsername() {
                 });
                 navigate('/');
             }
-
+            getUsername().then((r) => {
+                r && navigate('/');
+            });
+            
             if (!userEmail) {
                 getEmail().then((r) => {
                     r && setUserEmail(r);
