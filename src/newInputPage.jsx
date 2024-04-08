@@ -16,6 +16,8 @@ import InputSection from './inputSection';
 import {
     UpdateLogOutTime,
     calculateSessionStatus,
+    checkIfSignedIn,
+    getGrades,
     getStudentDetails,
 } from './supabaseClient';
 import { useMediaQuery } from 'react-responsive';
@@ -403,7 +405,22 @@ export default function NewInputPage() {
 }
 
 function AddStudentDrawer({ drawerOpen, setDrawerOpen }) {
+    const [grades, setGrades] = useState('');
+
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
+
+    useEffect(() => {
+        checkIfSignedIn().then((r) => {
+            if (r != true) {
+                navigate('/');
+            } else {
+                if (grades == '') {
+                    getGrades().then(r => {setGrades(r)})
+                }
+            }
+        });
+    }, []);
+
     return (
         <>
             <Drawer
@@ -464,27 +481,38 @@ function AddStudentDrawer({ drawerOpen, setDrawerOpen }) {
                             </Typography>
                         </Button> */}
                     </Box>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flexDirection: 'column',
-                        }}
-                    >
-                        <Typography
-                            align='center'
+                    {grades ? (
+                        <Box
                             sx={{
-                                fontFamily: 'Nunito',
-                                fontWeight: '600',
-                                fontSize: '1.5rem',
-                                mb: 7,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexDirection: 'column',
                             }}
                         >
-                            Add new student
+                            <Typography
+                                align='center'
+                                sx={{
+                                    fontFamily: 'Nunito',
+                                    fontWeight: '600',
+                                    fontSize: '1.5rem',
+                                    mb: 7,
+                                }}
+                            >
+                                Add new student
+                            </Typography>
+                            <InputSection
+                                setDrawerOpen={setDrawerOpen}
+                                grades={grades}
+                                setGrades={setGrades}
+                            />
+                        </Box>
+                    ) : (
+                        <Typography>
+                            Error - Grades could not be fetched. Please contact
+                            your organization for more info
                         </Typography>
-                        <InputSection setDrawerOpen={setDrawerOpen} />
-                    </Box>
+                    )}
                 </Box>
             </Drawer>
         </>

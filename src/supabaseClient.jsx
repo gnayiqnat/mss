@@ -249,3 +249,8 @@ export function calculateSessionStatus(signInTimeStr) {
         return `Active for ${minutes} minutes`;
     }
 }
+
+export async function getGrades() {
+    let { data, error } = await supabase.from('grade list').select('*');
+    return (data[0].list_of_grades);
+}

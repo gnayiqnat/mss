@@ -17,6 +17,7 @@ import {
     CheckExistingSession,
     LogSignInTime,
     checkIfSignedIn,
+    getGrades,
     getStudentDetails,
 } from './supabaseClient';
 import { enqueueSnackbar } from 'notistack';
@@ -25,13 +26,12 @@ import { useGlobalContext } from './newInputPage';
 import { useMediaQuery } from 'react-responsive';
 import { motion } from 'framer-motion';
 
-export default function InputSection({ setDrawerOpen }) {
+export default function InputSection({ setDrawerOpen, grades, setGrades }) {
     const navigate = useNavigate();
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
 
     const [isSessionRunning, setIsSessionRunning] = useState(false);
 
-    const grades = ['Form 1', 'Form 2', 'Form 3'];
 
     const [studentName, setStudentName] = useState('');
 
@@ -79,13 +79,6 @@ export default function InputSection({ setDrawerOpen }) {
         getStudentDetails();
     }
 
-    useEffect(() => {
-        checkIfSignedIn().then((r) => {
-            if (r != true) {
-                navigate('/');
-            }
-        });
-    }, [isSessionRunning]);
 
     return (
         <>
@@ -121,7 +114,7 @@ export default function InputSection({ setDrawerOpen }) {
                     <TextField
                         value={selectedClass}
                         onChange={handleSelectChange}
-                        sx={{ width: isMobile ? '90vw' : '100px' }}
+                        sx={{ width: isMobile ? '90vw' : '130px' }}
                         select
                         label='Grade'
                     >
@@ -218,10 +211,10 @@ function SubmitButton({ handleSubmit, isLoading }) {
                         mb: 0.5,
                         backgroundColor: 'primary.main',
                         padding: '15px',
-                        width: '425px',
+                        width: '450px',
                         maxWidth: '93vw',
 
-                        borderRadius: '20px',
+                        borderRadius: '15px',
                         '&:hover': {
                             backgroundColor: 'primary.main',
                         },
