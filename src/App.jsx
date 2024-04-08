@@ -41,6 +41,7 @@ import {
 import InputPage from './inputSection.jsx';
 import NewInputPage from './newInputPage.jsx';
 import Profile from './profile.jsx';
+import ForgotPassword from './forgotPassword.jsx';
 // import PrivacyPolicy from './privacyPolicy.jsx';
 
 export default function App() {
@@ -52,6 +53,7 @@ export default function App() {
         '/profile',
         '/set-username',
         '/set-password',
+        '/forgot-password',
     ];
     const navigate = useNavigate('/');
 
@@ -165,6 +167,7 @@ export default function App() {
 
                         <Route path='/set-username' element={<SetUsername />} />
                         <Route path='/set-password' element={<SetPassword />} />
+                        <Route path='/forgot-password' element={<ForgotPassword />} />
                         {/*  <Route
                                 path='/privacypolicy'
                                 element={<PrivacyPolicy />}
