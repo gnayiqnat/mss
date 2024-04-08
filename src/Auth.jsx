@@ -184,56 +184,57 @@ export default function Auth() {
                                     },
                                 }}
                             />
-                           <motion.div   
+                            <motion.div
                                 initial={{ scale: 1 }}
                                 whileHover={{ scale: 0.95 }}
                                 whileTap={{ scale: 0.8 }}
                             >
-                             <Box
-                                sx={{
-                                    mt: 5,
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                }}
-                            >
-                                <Button
+                                <Box
                                     sx={{
-                                        backgroundColor: 'primary.main',
-                                        padding: '15px',
-                                        width: '100%',
-                                        borderRadius: '80px',
-                                        '&:hover': {
-                                            backgroundColor: 'primary.main',
-                                        },
-                                    }}
-                                    onClick={() => {
-                                        handleSubmit();
+                                        mt: 5,
+                                        display: 'flex',
+                                        justifyContent: 'center',
                                     }}
                                 >
-                                    {isLoading ? (
-                                        <CircularProgress
-                                            disableShrink
-                                            size='1.69rem'
-                                            sx={{
-                                                color: 'hsl(216, 18%, 85%)',
-                                            }}
-                                        />
-                                    ) : (
-                                        <Typography
-                                            sx={{
-                                                opacity: 0.7,
-                                                fontFamily: 'Nunito',
-                                                textTransform: 'none',
-                                                color: 'hsl(216, 18%, 85%)',
-                                                fontWeight: '600',
-                                                fontSize: '18px',
-                                            }}
-                                        >
-                                            Submit
-                                        </Typography>
-                                    )}
-                                </Button>
-                            </Box></motion.div>
+                                    <Button
+                                        sx={{
+                                            backgroundColor: 'primary.main',
+                                            padding: '15px',
+                                            width: '100%',
+                                            borderRadius: '15px',
+                                            '&:hover': {
+                                                backgroundColor: 'primary.main',
+                                            },
+                                        }}
+                                        onClick={() => {
+                                            handleSubmit();
+                                        }}
+                                    >
+                                        {isLoading ? (
+                                            <CircularProgress
+                                                disableShrink
+                                                size='1.69rem'
+                                                sx={{
+                                                    color: 'hsl(216, 18%, 85%)',
+                                                }}
+                                            />
+                                        ) : (
+                                            <Typography
+                                                sx={{
+                                                    opacity: 0.7,
+                                                    fontFamily: 'Nunito',
+                                                    textTransform: 'none',
+                                                    color: 'hsl(216, 18%, 85%)',
+                                                    fontWeight: '600',
+                                                    fontSize: '18px',
+                                                }}
+                                            >
+                                                Submit
+                                            </Typography>
+                                        )}
+                                    </Button>
+                                </Box>
+                            </motion.div>
                         </Box>
                     </>
                 </Box>

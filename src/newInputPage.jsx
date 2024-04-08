@@ -409,6 +409,11 @@ export default function NewInputPage() {
                                                         borderColor: '#d32f2f',
                                                         backgroundColor:
                                                             '#d32f2f40',
+                                                        '&:hover': {
+                                                            backgroundColor: '#d32f2f40',
+                                                            borderColor: '#d32f2f',
+                                                            opacity: 0.7,
+                                                        }
                                                     }}
                                                     onClick={() =>
                                                         handleXClick(
