@@ -9,7 +9,7 @@ import {
     MenuItem,
     Typography,
 } from '@mui/material';
-import { motion } from 'framer-motion';
+import { motion, useAnimate } from 'framer-motion';
 import { createContext, useContext, useEffect, useState } from 'react';
 import CachedTwoToneIcon from '@mui/icons-material/CachedTwoTone';
 import InputSection from './inputSection';
@@ -34,11 +34,22 @@ export default function NewInputPage() {
     const isMobile = useMediaQuery({ query: '(max-width: 600px) ' });
     const isMobile500 = useMediaQuery({ query: '(max-width: 500px) ' });
 
+    const [scope, animate] = useAnimate();
+
     useEffect(() => {
         if (studentDetailsList == '') {
             fetchStudents();
         }
         if (buttonClicked) {
+            animate(scope.current, { rotateZ: 0 }, { duration: 0 }).then(() => {
+                animate(
+                    scope.current,
+                    { rotateZ: buttonClicked ? 360 : 0 },
+                    { duration: 1 },
+                    { ease: 'linear' }
+                );
+            });
+
             fetchStudents();
             setButtonClicked(false);
         }
@@ -118,6 +129,7 @@ export default function NewInputPage() {
                                             }}
                                         >
                                             <CachedTwoToneIcon
+                                                ref={scope}
                                                 sx={{
                                                     color: 'primary.main',
                                                 }}
@@ -147,6 +159,7 @@ export default function NewInputPage() {
                                         }}
                                     >
                                         <CachedTwoToneIcon
+                                            ref={scope}
                                             fontSize='small'
                                             sx={{ color: 'primary.main' }}
                                         />
@@ -415,7 +428,9 @@ function AddStudentDrawer({ drawerOpen, setDrawerOpen }) {
                 navigate('/');
             } else {
                 if (grades == '') {
-                    getGrades().then(r => {setGrades(r)})
+                    getGrades().then((r) => {
+                        setGrades(r);
+                    });
                 }
             }
         });
