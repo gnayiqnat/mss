@@ -1,4 +1,4 @@
-import { AddRounded, CloseRounded } from '@mui/icons-material';
+import { AddRounded, CloseRounded, LogoutRounded, MoreVertRounded } from '@mui/icons-material';
 import {
     Box,
     Button,
@@ -276,40 +276,38 @@ export default function NewInputPage() {
                                         color: 'primary.main',
 
                                         display: 'flex',
+                                        flexDirection: 'row',
                                         justifyContent: 'space-between',
                                         alignItems: !isMobile && 'center',
-                                        flexDirection: isMobile
-                                            ? 'column'
-                                            : 'row',
                                         gap: '26px 15px',
                                         borderRadius: '15px',
                                     }}
                                 >
-                                    <Box
-                                        sx={{
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                        }}
-                                    >
+
+                                        <Typography
+                                            sx={{
+                                                color: 'primary.main',
+                                                fontFamily: 'Nunito',
+                                                fontWeight: '700',
+                                                fontSize: '1.1rem',
+                                                maxWidth: isMobile
+                                                    ? '45vw'
+                                                    : '200px',
+                                                wordWrap: 'break-word',
+                                            }}
+                                        >
+                                            {e.student_name}
+                                        </Typography>
+
                                         <Box
                                             sx={{
                                                 display: 'flex',
-                                                gap: '0px 13px',
+                                                flexDirection: e.student_name.length > 10 ? 'column' : 'row',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                gap: '8px 13px',
                                             }}
                                         >
-                                            <Typography
-                                                sx={{
-                                                    color: 'primary.main',
-                                                    fontFamily: 'Nunito',
-                                                    fontWeight: '700',
-                                                    fontSize: '1.1rem',
-                                                }}
-                                            >
-                                                {e.student_name}
-                                            </Typography>
-
                                             <Box
                                                 sx={{
                                                     backgroundColor:
@@ -320,12 +318,37 @@ export default function NewInputPage() {
                                                     fontWeight: '700',
                                                     padding: '5px 13px',
                                                     borderRadius: '30px',
+                                                    whiteSpace: 'nowrap',
+                                                    maxHeight: '20px',
                                                 }}
                                             >
                                                 {e.student_class}
                                             </Box>
+                                            {isMobile && (
+                                                <Card
+                                                    variant='outlined'
+                                                    sx={{
+                                                        backgroundColor:
+                                                            'transparent',
+                                                        color: 'primary.main',
+                                                        borderColor:
+                                                            'primary.main',
+                                                        fontFamily: 'Nunito',
+                                                        fontSize: '0.8rem',
+                                                        fontWeight: '700',
+                                                        padding: '5px 13px',
+                                                        borderRadius: '30px',
+                                                        whiteSpace: 'nowrap',
+                                                        maxHeight: '20px',
+                                                    }}
+                                                >
+                                                    {calculateSessionStatus(
+                                                        e.sign_in_time,
+                                                        true
+                                                    )}
+                                                </Card>
+                                            )}
                                         </Box>
-                                    </Box>
                                     <Box
                                         sx={{
                                             display: 'flex',
@@ -335,62 +358,85 @@ export default function NewInputPage() {
                                             gap: '0px 20px',
                                         }}
                                     >
-                                        <Typography
-                                            sx={{
-                                                color: 'primary.main',
-                                                opacity: 0.5,
-                                                fontFamily: 'Nunito',
-                                                fontWeight: '600',
-                                                fontSize: '1rem',
-                                                whiteSpace: 'nowrap',
-                                            }}
-                                        >
-                                            {calculateSessionStatus(
-                                                e.sign_in_time
-                                            )}
-                                        </Typography>
-
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                flexDirection: 'row',
-                                                alignItems: 'center',
-                                                color: '#d32f2f',
-                                            }}
-                                        >
-                                            <Button
-                                                variant='outlined'
-                                                sx={{
-                                                    borderRadius: '10px',
-                                                    borderColor: '#d32f2f',
-                                                    backgroundColor:
-                                                        '#d32f2f40',
-                                                }}
-                                                onClick={() =>
-                                                    handleXClick(
-                                                        e.id
-                                                            ? e.id
-                                                            : enqueueSnackbar(
-                                                                  'No row ID. Please contact your organization.',
-                                                                  {
-                                                                      variant:
-                                                                          'error',
-                                                                  }
-                                                              )
-                                                    )
-                                                }
-                                            >
+                                        {!isMobile && (
+                                            <>
                                                 <Typography
                                                     sx={{
-                                                        color: '#d32f2f',
-                                                        textTransform: 'none',
+                                                        color: 'primary.main',
+                                                        opacity: 0.5,
+                                                        fontFamily: 'Nunito',
+                                                        fontWeight: '600',
+                                                        fontSize: '1rem',
                                                         whiteSpace: 'nowrap',
                                                     }}
                                                 >
-                                                    End Session
+                                                    {calculateSessionStatus(
+                                                        e.sign_in_time
+                                                    )}
                                                 </Typography>
-                                            </Button>
-                                        </Box>
+                                            </>
+                                        )}
+                                        {isMobile ? (
+                                            <IconButton onClick={() =>
+                                                handleXClick(
+                                                    e.id
+                                                        ? e.id
+                                                        : enqueueSnackbar(
+                                                              'No row ID. Please contact your organization.',
+                                                              {
+                                                                  variant:
+                                                                      'error',
+                                                              }
+                                                          )
+                                                )
+                                            }>
+                                                <LogoutRounded sx={{color: '#d32f2f'}} />
+                                            </IconButton>
+                                        ) : (
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    alignItems: 'center',
+                                                    color: '#d32f2f',
+                                                }}
+                                            >
+                                                <Button
+                                                    variant='outlined'
+                                                    sx={{
+                                                        borderRadius: '10px',
+                                                        borderColor: '#d32f2f',
+                                                        backgroundColor:
+                                                            '#d32f2f40',
+                                                    }}
+                                                    onClick={() =>
+                                                        handleXClick(
+                                                            e.id
+                                                                ? e.id
+                                                                : enqueueSnackbar(
+                                                                      'No row ID. Please contact your organization.',
+                                                                      {
+                                                                          variant:
+                                                                              'error',
+                                                                      }
+                                                                  )
+                                                        )
+                                                    }
+                                                >
+                                                    <Typography
+                                                        sx={{
+                                                            color: '#d32f2f',
+                                                            textTransform:
+                                                                'none',
+                                                            whiteSpace:
+                                                                'nowrap',
+                                                        }}
+                                                    >
+                                                        End Session
+                                                    </Typography>
+                                                </Button>
+                                            </Box>
+                                        )}
                                     </Box>
                                 </Card>
                             </motion.div>

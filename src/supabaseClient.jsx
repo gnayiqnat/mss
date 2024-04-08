@@ -230,7 +230,7 @@ export async function UpdateLogOutTime(id) {
     }
 }
 
-export function calculateSessionStatus(signInTimeStr) {
+export function calculateSessionStatus(signInTimeStr, mobile) {
     // Define the sign-in time
     const signInTime = moment(signInTimeStr, 'MMMM D, YYYY at h:mm A');
 
@@ -244,16 +244,18 @@ export function calculateSessionStatus(signInTimeStr) {
 
     // Output the result
     if (hours > 0) {
-        return `Active for ${hours} hrs`;
+        return mobile ? `${hours} hrs` : `Active for ${hours} hrs`;
     } else {
         if (minutes < 1) {
-            return `Active for <1 min`
+            return mobile ? '<1 min' :`Active for <1 min`;
         }
-        return `Active for ${minutes} ${minutes === 1 ? 'min' : 'min'}`;
+        return mobile
+            ? `${minutes} ${minutes === 1 ? 'min' : 'min'}`
+            : `Active for ${minutes} ${minutes === 1 ? 'min' : 'min'}`;
     }
 }
 
 export async function getGrades() {
     let { data, error } = await supabase.from('grade list').select('*');
-    return (data[0].list_of_grades);
+    return data[0].list_of_grades;
 }
