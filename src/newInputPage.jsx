@@ -41,14 +41,16 @@ export default function NewInputPage() {
             fetchStudents();
         }
         if (buttonClicked) {
-            animate(scope.current, { rotateZ: 0 }, { duration: 0 }).then(() => {
-                animate(
-                    scope.current,
-                    { rotateZ: buttonClicked ? 360 : 0 },
-                    { duration: 1 },
-                    { ease: 'linear' }
-                );
-            });
+            animate(scope.current, { rotateZ: 0 }, { duration: 0.001 }).then(
+                () => {
+                    animate(
+                        scope.current,
+                        { rotateZ: buttonClicked ? 360 : 0 },
+                        { duration: 1 },
+                        { ease: 'linear' }
+                    );
+                }
+            );
 
             fetchStudents();
             setButtonClicked(false);
@@ -138,7 +140,7 @@ export default function NewInputPage() {
                                     </>
                                 ) : (
                                     <Button
-                                    disableRipple
+                                        disableRipple
                                         variant='outlined'
                                         sx={{
                                             borderRadius: '10px',
@@ -202,7 +204,7 @@ export default function NewInputPage() {
                                         </>
                                     ) : (
                                         <Button
-                                        disableRipple
+                                            disableRipple
                                             variant='outlined'
                                             sx={{
                                                 borderRadius: '10px',
