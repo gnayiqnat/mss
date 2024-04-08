@@ -117,6 +117,11 @@ export default function InputSection({ setDrawerOpen, grades, setGrades }) {
                         sx={{ width: isMobile ? '90vw' : '130px' }}
                         select
                         label='Grade'
+                        SelectProps={{
+                            MenuProps: {
+                              sx: { height: "300px" },
+                            },
+                          }}
                     >
                         {grades.map((option, i) => (
                             <MenuItem key={i} value={option}>
