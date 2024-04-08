@@ -92,6 +92,7 @@ export default function NewInputPage() {
                     flexDirection: 'column',
                     width: '99vw',
                     gap: '25px',
+                    paddingBottom: '70px',
                 }}
             >
                 <Box
