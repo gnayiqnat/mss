@@ -244,9 +244,12 @@ export function calculateSessionStatus(signInTimeStr) {
 
     // Output the result
     if (hours > 0) {
-        return `Active for ${hours} hours`;
+        return `Active for ${hours} hrs`;
     } else {
-        return `Active for ${minutes} minutes`;
+        if (minutes < 1) {
+            return `Active for <1 min`
+        }
+        return `Active for ${minutes} ${minutes === 1 ? 'min' : 'min'}`;
     }
 }
 
