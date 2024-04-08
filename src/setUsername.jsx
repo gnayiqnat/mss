@@ -84,7 +84,6 @@ export default function SetUsername() {
         } else {
             enqueueSnackbar('Fields cannot be empty', {
                 variant: 'error',
-                preventDuplicate: true,
             });
             setTimeout(() => {
                 setIsLoading(false);
