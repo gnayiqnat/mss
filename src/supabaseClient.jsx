@@ -34,11 +34,15 @@ export async function getUsername() {
     try {
         const { data, error } = await supabase.from('usernames').select('*');
 
-        if (error) throw error;
-
-        return data[0].username; // Return the fetched data
+        return data[0].username ? data[0].username : ''; // Return the fetched data
     } catch (error) {
-        console.error('Error fetching username:', error);
+        if (
+            error ==
+            `TypeError: Cannot read properties of undefined (reading 'username')
+        `
+        ) {
+            return null;
+        }
         return null; // Or return something that indicates an error
     }
 }
@@ -159,7 +163,11 @@ export async function CheckExistingSession() {
 export async function LogSignInTime(studentName, studentClass) {
     let username;
     await getUsername().then((r) => {
-        username = r;
+        if (r) {
+            username = r;
+        } else {
+            return null;
+        }
     });
 
     const currentTime = new Date().toLocaleDateString('en-US', {
@@ -170,24 +178,31 @@ export async function LogSignInTime(studentName, studentClass) {
         minute: '2-digit',
     });
 
-    try {
-        // Create a new session
-        const { data: newData, error: newError } = await supabase
-            .from('user_sessions')
-            .insert([
-                {
-                    username: username,
-                    sign_in_time: currentTime,
-                    student_name: studentName,
-                    student_class: studentClass,
-                },
-            ]);
-
-        if (newError) throw newError;
-        console.log('Sign-in time logged');
-    } catch (error) {
-        console.error('Error logging sign-in time:', error);
-        return 'Something went wrong. Please check console for more information.';
+    if (username) {
+        try {
+            // Create a new session
+            const { data: newData, error: newError } = await supabase
+                .from('user_sessions')
+                .insert([
+                    {
+                        username: username,
+                        sign_in_time: currentTime,
+                        student_name: studentName,
+                        student_class: studentClass,
+                    },
+                ]);
+    
+            if (newError) throw newError;
+            console.log('Sign-in time logged');
+        } catch (error) {
+            enqueueSnackbar(`${error}`, {
+                variant: 'error',
+                preventDuplicate: true,
+            });
+            return 'Something went wrong. Please check console for more information.';
+        }
+    } else {
+        return 'no username :('
     }
 }
 
@@ -247,7 +262,7 @@ export function calculateSessionStatus(signInTimeStr, mobile) {
         return mobile ? `${hours} hrs` : `Active for ${hours} hrs`;
     } else {
         if (minutes < 1) {
-            return mobile ? '<1 min' :`Active for <1 min`;
+            return mobile ? '<1 min' : `Active for <1 min`;
         }
         return mobile
             ? `${minutes} ${minutes === 1 ? 'min' : 'min'}`
@@ -258,4 +273,11 @@ export function calculateSessionStatus(signInTimeStr, mobile) {
 export async function getGrades() {
     let { data, error } = await supabase.from('grade list').select('*');
     return data[0].list_of_grades;
+}
+
+export async function getUserDetails() {
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+    return user;
 }

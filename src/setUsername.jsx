@@ -59,7 +59,8 @@ export default function SetUsername() {
         if (newUsername) {
             try {
                 const response = await setUsername(newUsername);
-                if (response && response.status === 201) {
+                console.log(response)
+                if ((response) && response.status === 201) {
                     enqueueSnackbar('Username change success', {
                         variant: 'success',
                     });
@@ -68,8 +69,9 @@ export default function SetUsername() {
                         scope.current,
                         { opacity: 0 },
                         { duration: 0.5 },
-                        () => setTimeout(() => navigate('/'), 750)
-                    );
+                        
+                    )
+                    setTimeout(() => navigate('/'), 750)
                 } else {
                     enqueueSnackbar(response.error.message, {
                         variant: 'error',

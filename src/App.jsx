@@ -28,7 +28,12 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import Auth from './Auth.jsx';
 
-import { MaterialDesignContent, SnackbarProvider, closeSnackbar } from 'notistack';
+import {
+    MaterialDesignContent,
+    SnackbarProvider,
+    closeSnackbar,
+    enqueueSnackbar,
+} from 'notistack';
 import { useMediaQuery } from 'react-responsive';
 import FourOFourPage from './404.jsx';
 import SetUsername from './setUsername.jsx';
@@ -36,6 +41,7 @@ import SetPassword from './setPassword.jsx';
 import {
     UpdateLogOutTime,
     checkIfSignedIn,
+    getUserDetails,
     getUsername,
     logOut,
 } from './supabaseClient.jsx';
@@ -45,17 +51,18 @@ import Profile from './profile.jsx';
 import ForgotPassword from './forgotPassword.jsx';
 // import PrivacyPolicy from './privacyPolicy.jsx';
 
+const routes = [
+    '/',
+    '/dashboard',
+    '/profile',
+    '/set-username',
+    '/set-password',
+    '/forgot-password',
+];
+
 export default function App() {
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const routes = [
-        '/',
-        '/dashboard',
-        '/profile',
-        '/set-username',
-        '/set-password',
-        '/forgot-password',
-    ];
     const navigate = useNavigate('/');
 
     useEffect(() => {
@@ -71,7 +78,7 @@ export default function App() {
                 }
             }
         });
-    }, [location.pathname]);
+    }, []);
 
     const StyledMaterialDesignContent = styled(MaterialDesignContent)(() => ({
         '&.notistack-MuiContent-success': {
@@ -128,18 +135,18 @@ export default function App() {
                 transition={{ duration: 0.5, delay: 0.5 }}
             >
                 <SnackbarProvider
-                 action={(key) => (
-                    <Button
-                        onClick={() => closeSnackbar(key)}
-                        style={{
-                            height: '100%',
-                            left: 0,
-                            position: 'absolute',
-                            top: 0,
-                            width: '100%'
-                        }}
-                        styleType="link"
-                    />)}
+                    action={(key) => (
+                        <Button
+                            onClick={() => closeSnackbar(key)}
+                            style={{
+                                height: '100%',
+                                left: 0,
+                                position: 'absolute',
+                                top: 0,
+                                width: '100%',
+                            }}
+                        />
+                    )}
                     transitionDuration={{ enter: 200, exit: 200 }}
                     disableWindowBlurListener={true}
                     autoHideDuration={3000}
@@ -200,15 +207,22 @@ export default function App() {
 function NavBar() {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
+    const [userEmail, setUserEmail] = useState('');
 
+    function usernameNotFound() {
+        getUserDetails().then((r) => {
+            setUserEmail(r.email);
+        });
+        enqueueSnackbar('Username not found', {variant: 'error', preventDuplicate: true})
+        navigate('/set-username')
+    }
     async function fetchUsername() {
         let username;
 
         await getUsername().then((r) => {
-            username = r;
+            r != null ? (username = r) : usernameNotFound()
         });
-
-        setUsername(username);
+        setUsername(username ? username : '');
     }
     useEffect(() => {
         checkIfSignedIn().then((r) => {
@@ -240,19 +254,25 @@ function NavBar() {
                         justifyContent: 'space-between',
                     }}
                 >
-                    <Avatar
-                        sx={{
-                            borderRadius: 0,
-                            width: '50px',
-                            height: '50px',
-                        }}
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => {
-                            navigate('/');
-                        }}
-                    />
+                    <motion.div
+                        initial={{ scale: 1 }}
+                        whileHover={{ scale: 0.95 }}
+                        whileTap={{ scale: 0.8 }}
+                    >
+                        <Avatar
+                            sx={{
+                                borderRadius: 0,
+                                width: '50px',
+                                height: '50px',
+                            }}
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                                navigate('/');
+                            }}
+                        />
+                    </motion.div>
 
-                    {username && (
+                    {(username || userEmail) && (
                         <Box
                             sx={{
                                 display: 'flex',
@@ -267,14 +287,18 @@ function NavBar() {
                                 animate={{ opacity: 1 }}
                                 transition={{ duration: 0.5, delay: 1 }}
                             >
-                                <Typography sx={{ color: 'primary.main' }}>
-                                    {username}
+                                <Typography
+                                    sx={{
+                                        color: 'primary.main',
+                                    }}
+                                >
+                                    {username != '' ? username : userEmail}
                                 </Typography>
                             </motion.div>
                             <motion.div
                                 initial={{ scale: 1 }}
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
+                                whileHover={{ scale: 0.95 }}
+                                whileTap={{ scale: 0.8 }}
                                 style={{ cursor: 'pointer' }}
                                 onClick={() => {
                                     navigate('/profile');

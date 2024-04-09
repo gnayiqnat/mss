@@ -66,7 +66,18 @@ export default function InputSection({ setDrawerOpen, grades, setGrades }) {
         setIsLoading(true);
         if (studentName && studentClassRef.current) {
             LogSignInTime(studentName, studentClassRef.current).then((r) => {
-                r ? console.log(r) : handleSuccess();
+                if (r) {
+                    if (r == 'no username :(') {
+                        enqueueSnackbar('Username not found', {
+                            variant: 'error',
+                            preventDuplicate: true,
+                        });
+                        navigate('/set-username');
+                    }
+                    console.log(r);
+                } else {
+                    handleSuccess();
+                }
             });
         } else {
             setIsLoading(false);
