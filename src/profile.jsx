@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { UpdateLogOutTime, getEmail, logOut } from './supabaseClient';
 
 import React, { useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 export default function Profile() {
-    const [email, setEmail] = useState('')
+    const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
+    const [email, setEmail] = useState('');
 
     const navigate = useNavigate();
 
@@ -25,8 +27,6 @@ export default function Profile() {
         navigate('/');
     }
 
-    
-
     return (
         <>
             <Box
@@ -37,20 +37,21 @@ export default function Profile() {
                     justifyContent: 'center',
                     width: '100vw',
                     height: '50dvh',
-                    gap: '30px',
+                    flexDirection: isMobile ? 'column' : 'row',
+                    gap: '20px 30px',
                 }}
             >
                 <Typography
-                            sx={{
-                                fontFamily: 'Nunito',
-                                fontWeight: '600',
-                                fontSize: '1.6rem',
-                                color: 'primary.main',
-                                textTransform: 'none',
-                            }}
-                        >
-                            {email && email}
-                        </Typography>
+                    sx={{
+                        fontFamily: 'Nunito',
+                        fontWeight: '600',
+                        fontSize: '1.6rem',
+                        color: 'primary.main',
+                        textTransform: 'none',
+                    }}
+                >
+                    {email && email}
+                </Typography>
                 <Box
                     sx={{
                         display: 'flex',
