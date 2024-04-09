@@ -69,7 +69,7 @@ export default function SetPassword() {
 
         if (newPassword && passwordValidation) {
             try {
-                const response = await setPassword();
+                const response = await setPassword(newPassword);
                 if (response.error) {
                     enqueueSnackbar(response.error.message, {
                         variant: 'error',
