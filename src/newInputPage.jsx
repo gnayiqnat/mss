@@ -1,4 +1,9 @@
-import { AddRounded, CloseRounded, LogoutRounded, MoreVertRounded } from '@mui/icons-material';
+import {
+    AddRounded,
+    CloseRounded,
+    LogoutRounded,
+    MoreVertRounded,
+} from '@mui/icons-material';
 import {
     Box,
     Button,
@@ -101,14 +106,18 @@ export default function NewInputPage() {
                         maxWidth: '700px',
                         display: 'flex',
                         justifyContent: 'space-between',
-                        align:'center',
+                        align: 'center',
                         mb: 3,
                         ml: 2,
                         margin: '0 auto',
                     }}
                 >
                     <Typography
-                        sx={{ fontFamily: 'Nunito', fontSize: isMobile ? '1.4rem' :'1.5rem', mt: isMobile && 0.5, }}
+                        sx={{
+                            fontFamily: 'Nunito',
+                            fontSize: isMobile ? '1.4rem' : '1.5rem',
+                            mt: isMobile && 0.5,
+                        }}
                     >
                         Pupils ({studentDetailsList.length})
                     </Typography>
@@ -279,41 +288,62 @@ export default function NewInputPage() {
                                         display: 'flex',
                                         flexDirection: 'row',
                                         justifyContent: 'space-between',
-                                        alignItems: !isMobile && 'center',
+                                        alignItems: 'center',
                                         gap: '26px 15px',
                                         borderRadius: '15px',
                                     }}
                                 >
+                                    <Typography
+                                        sx={{
+                                            color: 'primary.main',
+                                            fontFamily: 'Nunito',
+                                            fontWeight: '700',
+                                            fontSize: '1.1rem',
+                                            maxWidth: isMobile
+                                                ? '45vw'
+                                                : '200px',
+                                            wordWrap: 'break-word',
+                                        }}
+                                    >
+                                        {e.student_name}
+                                    </Typography>
 
-                                        <Typography
-                                            sx={{
-                                                color: 'primary.main',
-                                                fontFamily: 'Nunito',
-                                                fontWeight: '700',
-                                                fontSize: '1.1rem',
-                                                maxWidth: isMobile
-                                                    ? '45vw'
-                                                    : '200px',
-                                                wordWrap: 'break-word',
-                                            }}
-                                        >
-                                            {e.student_name}
-                                        </Typography>
-
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            flexDirection:
+                                                e.student_name.length > 10
+                                                    ? 'column'
+                                                    : 'row',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            gap: '8px 13px',
+                                        }}
+                                    >
                                         <Box
                                             sx={{
-                                                display: 'flex',
-                                                flexDirection: e.student_name.length > 10 ? 'column' : 'row',
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                gap: '8px 13px',
+                                                backgroundColor:
+                                                    'secondary.main',
+                                                color: 'primary.main',
+                                                fontFamily: 'Nunito',
+                                                fontSize: '0.8rem',
+                                                fontWeight: '700',
+                                                padding: '5px 13px',
+                                                borderRadius: '30px',
+                                                whiteSpace: 'nowrap',
+                                                maxHeight: '20px',
                                             }}
                                         >
-                                            <Box
+                                            {e.student_class}
+                                        </Box>
+                                        {isMobile && (
+                                            <Card
+                                                variant='outlined'
                                                 sx={{
                                                     backgroundColor:
-                                                        'secondary.main',
+                                                        'transparent',
                                                     color: 'primary.main',
+                                                    borderColor: 'primary.main',
                                                     fontFamily: 'Nunito',
                                                     fontSize: '0.8rem',
                                                     fontWeight: '700',
@@ -323,33 +353,13 @@ export default function NewInputPage() {
                                                     maxHeight: '20px',
                                                 }}
                                             >
-                                                {e.student_class}
-                                            </Box>
-                                            {isMobile && (
-                                                <Card
-                                                    variant='outlined'
-                                                    sx={{
-                                                        backgroundColor:
-                                                            'transparent',
-                                                        color: 'primary.main',
-                                                        borderColor:
-                                                            'primary.main',
-                                                        fontFamily: 'Nunito',
-                                                        fontSize: '0.8rem',
-                                                        fontWeight: '700',
-                                                        padding: '5px 13px',
-                                                        borderRadius: '30px',
-                                                        whiteSpace: 'nowrap',
-                                                        maxHeight: '20px',
-                                                    }}
-                                                >
-                                                    {calculateSessionStatus(
-                                                        e.sign_in_time,
-                                                        true
-                                                    )}
-                                                </Card>
-                                            )}
-                                        </Box>
+                                                {calculateSessionStatus(
+                                                    e.sign_in_time,
+                                                    true
+                                                )}
+                                            </Card>
+                                        )}
+                                    </Box>
                                     <Box
                                         sx={{
                                             display: 'flex',
@@ -378,20 +388,24 @@ export default function NewInputPage() {
                                             </>
                                         )}
                                         {isMobile ? (
-                                            <IconButton onClick={() =>
-                                                handleXClick(
-                                                    e.id
-                                                        ? e.id
-                                                        : enqueueSnackbar(
-                                                              'No row ID. Please contact your organization.',
-                                                              {
-                                                                  variant:
-                                                                      'error',
-                                                              }
-                                                          )
-                                                )
-                                            }>
-                                                <LogoutRounded sx={{color: '#d32f2f'}} />
+                                            <IconButton
+                                                onClick={() =>
+                                                    handleXClick(
+                                                        e.id
+                                                            ? e.id
+                                                            : enqueueSnackbar(
+                                                                  'No row ID. Please contact your organization.',
+                                                                  {
+                                                                      variant:
+                                                                          'error',
+                                                                  }
+                                                              )
+                                                    )
+                                                }
+                                            >
+                                                <LogoutRounded
+                                                    sx={{ color: '#d32f2f' }}
+                                                />
                                             </IconButton>
                                         ) : (
                                             <Box
@@ -410,10 +424,12 @@ export default function NewInputPage() {
                                                         backgroundColor:
                                                             '#d32f2f40',
                                                         '&:hover': {
-                                                            backgroundColor: '#d32f2f40',
-                                                            borderColor: '#d32f2f',
+                                                            backgroundColor:
+                                                                '#d32f2f40',
+                                                            borderColor:
+                                                                '#d32f2f',
                                                             opacity: 0.7,
-                                                        }
+                                                        },
                                                     }}
                                                     onClick={() =>
                                                         handleXClick(
