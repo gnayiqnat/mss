@@ -1,31 +1,21 @@
-import {
-    AccountBalanceWalletRounded,
-    ChatRounded,
-    Person,
-} from '@mui/icons-material';
 import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { Link, useLocation } from 'react-router-dom';
 
 import {
     AppBar,
     Avatar,
-    BottomNavigation,
-    BottomNavigationAction,
+    Badge,
     Box,
     Button,
-    Paper,
-    Tab,
-    Tabs,
+    IconButton,
     Toolbar,
     Typography,
-    styled,
+    styled
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Auth from './Auth.jsx';
 
 import {
@@ -36,8 +26,11 @@ import {
 } from 'notistack';
 import { useMediaQuery } from 'react-responsive';
 import FourOFourPage from './404.jsx';
-import SetUsername from './setUsername.jsx';
+import ForgotPassword from './forgotPassword.jsx';
+import NewInputPage from './newInputPage.jsx';
+import Profile from './profile.jsx';
 import SetPassword from './setPassword.jsx';
+import SetUsername from './setUsername.jsx';
 import {
     UpdateLogOutTime,
     checkIfSignedIn,
@@ -45,10 +38,6 @@ import {
     getUsername,
     logOut,
 } from './supabaseClient.jsx';
-import InputPage from './inputSection.jsx';
-import NewInputPage from './newInputPage.jsx';
-import Profile from './profile.jsx';
-import ForgotPassword from './forgotPassword.jsx';
 // import PrivacyPolicy from './privacyPolicy.jsx';
 
 const routes = [
@@ -260,17 +249,32 @@ function NavBar() {
                         whileHover={{ scale: 0.95 }}
                         whileTap={{ scale: 0.8 }}
                     >
-                        <Avatar
-                            sx={{
-                                borderRadius: 0,
-                                width: '50px',
-                                height: '50px',
-                            }}
-                            style={{ cursor: 'pointer' }}
+                        <IconButton
+                            sx={{ borderRadius: '5px' }}
                             onClick={() => {
                                 navigate('/');
                             }}
-                        />
+                        >
+                            <Badge
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'right',
+                                }}
+                                color='primary'
+                                badgeContent={'Beta'}
+                            >
+                                <Avatar
+                                    sx={{
+                                        borderRadius: 0,
+                                        width: '50px',
+                                        height: '50px',
+                                    }}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    {' '}
+                                </Avatar>
+                            </Badge>
+                        </IconButton>{' '}
                     </motion.div>
 
                     {(username || userEmail) && (
