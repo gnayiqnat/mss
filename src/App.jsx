@@ -213,23 +213,24 @@ function NavBar() {
         getUserDetails().then((r) => {
             setUserEmail(r.email);
         });
-        enqueueSnackbar('Username not found', {variant: 'error', preventDuplicate: true})
-        navigate('/set-username')
+        enqueueSnackbar('Username not found', {
+            variant: 'error',
+            preventDuplicate: true,
+        });
+        navigate('/set-username');
     }
     async function fetchUsername() {
         let username;
 
         await getUsername().then((r) => {
-            r != null ? (username = r) : usernameNotFound()
+            r != null ? (username = r) : usernameNotFound();
         });
         setUsername(username ? username : '');
     }
     useEffect(() => {
         checkIfSignedIn().then((r) => {
             if (r == true) {
-                if (username == '') {
-                    fetchUsername();
-                }
+                fetchUsername();
             } else {
                 if (username != '') {
                     setUsername('');
