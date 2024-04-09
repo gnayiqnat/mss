@@ -1,18 +1,19 @@
 import { Box, Button, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UpdateLogOutTime, getUsername, logOut } from './supabaseClient';
+import { UpdateLogOutTime, getEmail, logOut } from './supabaseClient';
 
 import React, { useState } from 'react';
 
 export default function Profile() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('')
+
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (username == '') {
-            getUsername().then((r) => {
-                setUsername(r);
+        if (email == '') {
+            getEmail().then((r) => {
+                setEmail(r);
             });
         }
     }, []);
@@ -24,6 +25,8 @@ export default function Profile() {
         navigate('/');
     }
 
+    
+
     return (
         <>
             <Box
@@ -33,9 +36,21 @@ export default function Profile() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     width: '100vw',
+                    height: '50dvh',
                     gap: '30px',
                 }}
             >
+                <Typography
+                            sx={{
+                                fontFamily: 'Nunito',
+                                fontWeight: '600',
+                                fontSize: '1.6rem',
+                                color: 'primary.main',
+                                textTransform: 'none',
+                            }}
+                        >
+                            {email && email}
+                        </Typography>
                 <Box
                     sx={{
                         display: 'flex',
@@ -50,7 +65,7 @@ export default function Profile() {
                             borderRadius: '10px',
                             borderColor: '#d32f2f',
                             backgroundColor: '#d32f2f40',
-                            padding: '20px 50px',
+                            padding: '10px 30px',
                         }}
                         onClick={() => buttonClick()}
                     >
@@ -58,7 +73,7 @@ export default function Profile() {
                             sx={{
                                 fontFamily: 'Nunito',
                                 fontWeight: '600',
-                                fontSize: '1.6rem',
+                                fontSize: '1.3rem',
                                 color: '#d32f2f',
                                 textTransform: 'none',
                             }}
