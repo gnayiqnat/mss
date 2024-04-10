@@ -42,7 +42,7 @@ export default function SetUsername() {
                 navigate('/');
             }
             getUsername().then((r) => {
-                r && navigate('/');
+                r && (navigate('/'), enqueueSnackbar('Username has already been set', {variant: 'error', preventDuplicate: true}));
             });
             
             if (!userEmail) {
