@@ -42,9 +42,14 @@ export default function SetUsername() {
                 navigate('/');
             }
             getUsername().then((r) => {
-                r && (navigate('/'), enqueueSnackbar('Username has already been set', {variant: 'error', preventDuplicate: true}));
+                r &&
+                    (navigate('/'),
+                    enqueueSnackbar('Username has already been set', {
+                        variant: 'error',
+                        preventDuplicate: true,
+                    }));
             });
-            
+
             if (!userEmail) {
                 getEmail().then((r) => {
                     r && setUserEmail(r);
@@ -59,19 +64,14 @@ export default function SetUsername() {
         if (newUsername) {
             try {
                 const response = await setUsername(newUsername);
-                console.log(response)
-                if ((response) && response.status === 201) {
+                console.log(response);
+                if (response && response.status === 201) {
                     enqueueSnackbar('Username change success', {
                         variant: 'success',
                     });
                     enqueueSnackbar('Redirecting you', { variant: 'info' });
-                    animate(
-                        scope.current,
-                        { opacity: 0 },
-                        { duration: 0.5 },
-                        
-                    )
-                    setTimeout(() => navigate('/'), 750)
+                    animate(scope.current, { opacity: 0 }, { duration: 0.5 });
+                    setTimeout(() => navigate('/'), 750);
                 } else {
                     enqueueSnackbar(response.error.message, {
                         variant: 'error',
