@@ -515,6 +515,7 @@ export default function NewInputPage() {
                                     display: 'flex',
                                     justifyContent: 'center',
                                     mt: 10,
+                                    ml: 7,
                                 }}
                             >
                                 <Typography
