@@ -76,7 +76,11 @@ export default function Auth() {
     }
 
     return (
-        <>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+        >
             <Box ref={scope} sx={{ opacity: 1 }}>
                 <Box
                     sx={{
@@ -269,6 +273,6 @@ export default function Auth() {
                     </Box>
                             )*/}
             </Box>
-        </>
+        </motion.div>
     );
 }

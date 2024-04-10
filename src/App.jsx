@@ -11,7 +11,7 @@ import {
     IconButton,
     Toolbar,
     Typography,
-    styled
+    styled,
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
@@ -59,11 +59,10 @@ export default function App() {
             if (r == true) {
                 setIsLoggedIn(true);
             } else {
-                if (
-                    location.pathname != '/' &&
-                    routes.includes(location.pathname)
-                ) {
-                    navigate('/');
+                if (routes.includes(location.pathname)) {
+                    if (location.pathname != '/') {
+                        navigate('/');
+                    }
                 }
             }
         });
@@ -252,7 +251,7 @@ function NavBar() {
                         <IconButton
                             sx={{ borderRadius: '5px' }}
                             onClick={() => {
-                                navigate('/');
+                                navigate(location.pathname != '/dashboard' && '/');
                             }}
                         >
                             <Badge
