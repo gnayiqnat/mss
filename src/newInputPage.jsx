@@ -324,16 +324,15 @@ export default function NewInputPage() {
                                             {e.student_name}
                                         </Typography>
 
+                                        <Box sx={{display: 'flex', flexDirection: 'row', gap: '0px 30px'}}>
                                         <Box
                                             sx={{
                                                 display: 'flex',
-                                                flexDirection:
-                                                    e.student_name.length > 10
-                                                        ? 'column'
-                                                        : 'row',
+                                                flexDirection: 'column',
                                                 justifyContent: 'center',
                                                 alignItems: 'center',
                                                 gap: '8px 13px',
+                                                flexWrap: 'wrap',
                                             }}
                                         >
                                             <Box
@@ -482,6 +481,7 @@ export default function NewInputPage() {
                                                     </Button>
                                                 </Box>
                                             )}
+                                        </Box>
                                         </Box>
                                     </Card>
                                 </motion.li>
