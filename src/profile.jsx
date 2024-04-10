@@ -1,10 +1,11 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Skeleton, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UpdateLogOutTime, getEmail, logOut } from './supabaseClient';
 
 import React, { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
+import { motion } from 'framer-motion';
 
 export default function Profile() {
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
@@ -28,7 +29,11 @@ export default function Profile() {
     }
 
     return (
-        <>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: email ? 1 : 0 }}
+            transition={{ duration: 0.5 }}
+        >
             <Box
                 sx={{
                     mt: 10,
@@ -84,6 +89,6 @@ export default function Profile() {
                     </Button>
                 </Box>
             </Box>
-        </>
+        </motion.div>
     );
 }
