@@ -50,6 +50,7 @@ export default function NewInputPage() {
         hidden: { opacity: 0, y: 10 },
         show: { opacity: 1, y: 0 },
     };
+
     useEffect(() => {
         if (studentDetailsList == '') {
             setTimeout(() => {
@@ -57,6 +58,9 @@ export default function NewInputPage() {
             }, 750);
         }
         if (buttonClicked) {
+            if (studentDetailsList != '') {
+                setStudentDetailsList('');
+            }
             animate(scope.current, { rotateZ: 0 }, { duration: 0.001 }).then(
                 () => {
                     animate(
@@ -85,7 +89,7 @@ export default function NewInputPage() {
         if (e) {
             await UpdateLogOutTime(e);
         }
-        setButtonClicked(true);
+        fetchStudents()
     }
 
     return (
@@ -324,42 +328,28 @@ export default function NewInputPage() {
                                             {e.student_name}
                                         </Typography>
 
-                                        <Box sx={{display: 'flex', flexDirection: 'row', gap: '0px 30px'}}>
                                         <Box
                                             sx={{
                                                 display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                gap: '8px 13px',
-                                                flexWrap: 'wrap',
+                                                flexDirection: 'row',
+                                                gap: '0px 30px',
                                             }}
                                         >
                                             <Box
                                                 sx={{
-                                                    backgroundColor:
-                                                        'secondary.main',
-                                                    color: 'primary.main',
-                                                    fontFamily: 'Nunito',
-                                                    fontSize: '0.8rem',
-                                                    fontWeight: '700',
-                                                    padding: '5px 13px',
-                                                    borderRadius: '30px',
-                                                    whiteSpace: 'nowrap',
-                                                    maxHeight: '20px',
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    gap: '8px 13px',
+                                                    flexWrap: 'wrap',
                                                 }}
                                             >
-                                                {e.student_class}
-                                            </Box>
-                                            {isMobile && (
-                                                <Card
-                                                    variant='outlined'
+                                                <Box
                                                     sx={{
                                                         backgroundColor:
-                                                            'transparent',
+                                                            'secondary.main',
                                                         color: 'primary.main',
-                                                        borderColor:
-                                                            'primary.main',
                                                         fontFamily: 'Nunito',
                                                         fontSize: '0.8rem',
                                                         fontWeight: '700',
@@ -369,90 +359,69 @@ export default function NewInputPage() {
                                                         maxHeight: '20px',
                                                     }}
                                                 >
-                                                    {calculateSessionStatus(
-                                                        e.sign_in_time,
-                                                        true
-                                                    )}
-                                                </Card>
-                                            )}
-                                        </Box>
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                flexDirection: 'row',
-                                                justifyContent: 'end',
-                                                alignItems: 'center',
-                                                gap: '0px 20px',
-                                            }}
-                                        >
-                                            {!isMobile && (
-                                                <>
-                                                    <Typography
+                                                    {e.student_class}
+                                                </Box>
+                                                {isMobile && (
+                                                    <Card
+                                                        variant='outlined'
                                                         sx={{
+                                                            backgroundColor:
+                                                                'transparent',
                                                             color: 'primary.main',
-                                                            opacity: 0.5,
+                                                            borderColor:
+                                                                'primary.main',
                                                             fontFamily:
                                                                 'Nunito',
-                                                            fontWeight: '600',
-                                                            fontSize: '1rem',
+                                                            fontSize: '0.8rem',
+                                                            fontWeight: '700',
+                                                            padding: '5px 13px',
+                                                            borderRadius:
+                                                                '30px',
                                                             whiteSpace:
                                                                 'nowrap',
+                                                            maxHeight: '20px',
                                                         }}
                                                     >
                                                         {calculateSessionStatus(
-                                                            e.sign_in_time
+                                                            e.sign_in_time,
+                                                            true
                                                         )}
-                                                    </Typography>
-                                                </>
-                                            )}
-                                            {isMobile ? (
-                                                <IconButton
-                                                    onClick={() =>
-                                                        handleXClick(
-                                                            e.id
-                                                                ? e.id
-                                                                : enqueueSnackbar(
-                                                                      'No row ID. Please contact your organization.',
-                                                                      {
-                                                                          variant:
-                                                                              'error',
-                                                                      }
-                                                                  )
-                                                        )
-                                                    }
-                                                >
-                                                    <LogoutRounded
-                                                        sx={{
-                                                            color: '#d32f2f',
-                                                        }}
-                                                    />
-                                                </IconButton>
-                                            ) : (
-                                                <Box
-                                                    sx={{
-                                                        display: 'flex',
-                                                        flexDirection: 'row',
-                                                        alignItems: 'center',
-                                                        color: '#d32f2f',
-                                                    }}
-                                                >
-                                                    <Button
-                                                        variant='outlined'
-                                                        sx={{
-                                                            borderRadius:
-                                                                '10px',
-                                                            borderColor:
-                                                                '#d32f2f',
-                                                            backgroundColor:
-                                                                '#d32f2f40',
-                                                            '&:hover': {
-                                                                backgroundColor:
-                                                                    '#d32f2f40',
-                                                                borderColor:
-                                                                    '#d32f2f',
-                                                                opacity: 0.7,
-                                                            },
-                                                        }}
+                                                    </Card>
+                                                )}
+                                            </Box>
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    justifyContent: 'end',
+                                                    alignItems: 'center',
+                                                    gap: '0px 20px',
+                                                }}
+                                            >
+                                                {!isMobile && (
+                                                    <>
+                                                        <Typography
+                                                            sx={{
+                                                                color: 'primary.main',
+                                                                opacity: 0.5,
+                                                                fontFamily:
+                                                                    'Nunito',
+                                                                fontWeight:
+                                                                    '600',
+                                                                fontSize:
+                                                                    '1rem',
+                                                                whiteSpace:
+                                                                    'nowrap',
+                                                            }}
+                                                        >
+                                                            {calculateSessionStatus(
+                                                                e.sign_in_time
+                                                            )}
+                                                        </Typography>
+                                                    </>
+                                                )}
+                                                {isMobile ? (
+                                                    <IconButton
                                                         onClick={() =>
                                                             handleXClick(
                                                                 e.id
@@ -467,46 +436,100 @@ export default function NewInputPage() {
                                                             )
                                                         }
                                                     >
-                                                        <Typography
+                                                        <LogoutRounded
                                                             sx={{
                                                                 color: '#d32f2f',
-                                                                textTransform:
-                                                                    'none',
-                                                                whiteSpace:
-                                                                    'nowrap',
                                                             }}
+                                                        />
+                                                    </IconButton>
+                                                ) : (
+                                                    <Box
+                                                        sx={{
+                                                            display: 'flex',
+                                                            flexDirection:
+                                                                'row',
+                                                            alignItems:
+                                                                'center',
+                                                            color: '#d32f2f',
+                                                        }}
+                                                    >
+                                                        <Button
+                                                            variant='outlined'
+                                                            sx={{
+                                                                borderRadius:
+                                                                    '10px',
+                                                                borderColor:
+                                                                    '#d32f2f',
+                                                                backgroundColor:
+                                                                    '#d32f2f40',
+                                                                '&:hover': {
+                                                                    backgroundColor:
+                                                                        '#d32f2f40',
+                                                                    borderColor:
+                                                                        '#d32f2f',
+                                                                    opacity: 0.7,
+                                                                },
+                                                            }}
+                                                            onClick={() =>
+                                                                handleXClick(
+                                                                    e.id
+                                                                        ? e.id
+                                                                        : enqueueSnackbar(
+                                                                              'No row ID. Please contact your organization.',
+                                                                              {
+                                                                                  variant:
+                                                                                      'error',
+                                                                              }
+                                                                          )
+                                                                )
+                                                            }
                                                         >
-                                                            End Session
-                                                        </Typography>
-                                                    </Button>
-                                                </Box>
-                                            )}
-                                        </Box>
+                                                            <Typography
+                                                                sx={{
+                                                                    color: '#d32f2f',
+                                                                    textTransform:
+                                                                        'none',
+                                                                    whiteSpace:
+                                                                        'nowrap',
+                                                                }}
+                                                            >
+                                                                End Session
+                                                            </Typography>
+                                                        </Button>
+                                                    </Box>
+                                                )}
+                                            </Box>
                                         </Box>
                                     </Card>
                                 </motion.li>
                             ))}
                         </motion.ul>
                     ) : (
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                mt: 10,
-                            }}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.5 }}
                         >
-                            <Typography
+                            <Box
                                 sx={{
-                                    color: 'primary.main',
-                                    fontFamily: 'Nunito',
-                                    fontWeight: '500',
-                                    fontSize: '1.2rem',
-                                    opacity: 0.5,
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    mt: 10,
                                 }}
                             >
-                                No active sessions
-                            </Typography>
-                        </Box>
+                                <Typography
+                                    sx={{
+                                        color: 'primary.main',
+                                        fontFamily: 'Nunito',
+                                        fontWeight: '500',
+                                        fontSize: '1.2rem',
+                                        opacity: 0.5,
+                                    }}
+                                >
+                                    No active sessions
+                                </Typography>
+                            </Box>
+                        </motion.div>
                     )}
                 </Box>
             </Box>
