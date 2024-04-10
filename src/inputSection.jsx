@@ -44,16 +44,9 @@ export default function InputSection({ setDrawerOpen, grades, setGrades }) {
     };
 
     async function handleSuccess() {
-        isMobile
-            ? enqueueSnackbar('Student added', {
-                  variant: 'success',
-                  preventDuplicate: true,
-              })
-            : enqueueSnackbar('Student added', {
-                  variant: 'success',
-                  preventDuplicate: true,
-              });
-
+        enqueueSnackbar('Student added', {
+            variant: 'success',
+        });
         setStudentName('');
         setSelectedClass('');
         studentClassRef.current = '';
