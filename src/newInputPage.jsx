@@ -75,7 +75,7 @@ export default function NewInputPage() {
             fetchStudents();
             setButtonClicked(false);
         }
-    }, [buttonClicked]);
+    }, [buttonClicked, drawerOpen]);
 
     async function fetchStudents() {
         await getStudentDetails().then((r) => setStudentDetailsList(r));
