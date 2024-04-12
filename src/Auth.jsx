@@ -37,6 +37,9 @@ export default function Auth() {
     }, []);
 
     function handleSignInSuccess() {
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 200);
         enqueueSnackbar("You're now logged in.", {
             variant: 'success',
             preventDuplicate: true,
@@ -51,6 +54,7 @@ export default function Auth() {
         setTimeout(() => {
             navigate('/dashboard');
         }, 2500);
+        
     }
 
     function handleSubmit() {
@@ -61,17 +65,20 @@ export default function Auth() {
             signIn(CEV, CPV).then((response) => {
                 response === true
                     ? handleSignInSuccess()
-                    : (setCEV(''), setCPV(''));
+                    : (setCEV(''), setCPV(''), setTimeout(() => {
+                        setIsLoading(false);
+                    }, 200));
             });
         } else {
             enqueueSnackbar('Fields cannot be empty', {
                 variant: 'error',
                 preventDuplicate: true,
-            });
+            }),
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 200);
         }
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 200);
+
         animate(scope.current, { opacity: 1 }, { duration: 0.5 });
     }
 
