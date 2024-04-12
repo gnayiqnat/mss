@@ -295,7 +295,7 @@ function NavBar() {
                                 </Badge>
                             </IconButton>{' '}
                         </motion.div>
-                        {username != '' && <GithubMenu />}
+                        {username != '' && <GithubMenu isLoggedIn={true} />}
                     </Box>
                     {username || userEmail ? (
                         <Box
@@ -345,7 +345,7 @@ function NavBar() {
     );
 }
 
-function GithubMenu() {
+function GithubMenu({isLoggedIn}) {
     const [githubDropdown, setGithubDropdown] = useState(false);
 
     const container = {
@@ -429,7 +429,8 @@ function GithubMenu() {
                                 exit={{ opacity: 0 }}
                                 style={{
                                     position: 'absolute',
-                                    right: 0,
+                                    left: isLoggedIn && 5,
+                                    right: !isLoggedIn && 0,
                                     top: 50,
                                 }}
                             >
