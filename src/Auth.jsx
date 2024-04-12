@@ -54,21 +54,29 @@ export default function Auth() {
         setTimeout(() => {
             navigate('/dashboard');
         }, 2500);
-        
     }
 
-    function handleSubmit() {
+    async function handleSubmit() {
         setIsLoading(true);
         if (CEV && CPV) {
             animate(scope.current, { opacity: 0 }, { duration: 0.5 });
 
-            signIn(CEV, CPV).then((response) => {
-                response === true
-                    ? handleSignInSuccess()
-                    : (setCEV(''), setCPV(''), setTimeout(() => {
-                        setIsLoading(false);
-                    }, 200));
-            });
+            signIn(CEV, CPV)
+                .then(() => {
+                    handleSignInSuccess();
+                })
+                .catch((error) => {
+                    setCEV('');
+                    setCPV('');
+                    enqueueSnackbar(error, {
+                        variant: 'error',
+                        preventDuplicate: true,
+                    }),
+                        setTimeout(() => {
+                            setIsLoading(false);
+                            console.log(error);
+                        }, 200);
+                });
         } else {
             enqueueSnackbar('Fields cannot be empty', {
                 variant: 'error',
