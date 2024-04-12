@@ -322,7 +322,220 @@ function NavBar() {
                                 </Badge>
                             </IconButton>{' '}
                         </motion.div>
+                        {username != '' && (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'row',
+                                    position: 'relative',
+                                }}
+                            >
+                                <motion.div
+                                    initial={{ scale: 1 }}
+                                    whileHover={{ scale: 0.95 }}
+                                    whileTap={{ scale: 0.8 }}
+                                >
+                                    <Button
+                                        disableRipple
+                                        sx={{
+                                            borderRadius: '10px',
+                                            padding: '10px 15px',
+                                            height: '45px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '0px 4px',
+                                        }}
+                                        onClick={() => {
+                                            setGithubDropdown(!githubDropdown);
+                                        }}
+                                    >
+                                        <GitHub fontSize='small' />
+                                        <motion.div
+                                            style={{ marginTop: '10px' }}
+                                            initial={{
+                                                rotate: 0,
+                                                y: 0,
+                                            }}
+                                            animate={{
+                                                rotate: githubDropdown
+                                                    ? 180
+                                                    : 0,
+                                                y: githubDropdown ? -7 : 0,
+                                            }}
+                                        >
+                                            <KeyboardArrowDownRounded />
+                                        </motion.div>
+                                    </Button>
+                                </motion.div>
+                                <AnimatePresence>
+                                    {githubDropdown && (
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 0.1 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            style={{
+                                                position: 'absolute',
+                                                left: 0,
+                                                top: 50,
+                                            }}
+                                        >
+                                            <Card
+                                                variant='outlined'
+                                                sx={{
+                                                    borderRadius: '7px',
+                                                    // borderWidth: '1.4px',
+                                                    // borderColor: 'primary.main',
+                                                    whiteSpace: 'nowrap',
+                                                }}
+                                            >
+                                                <motion.ul
+                                                    variants={container}
+                                                    initial='hidden'
+                                                    animate='show'
+                                                    style={{
+                                                        padding: '0px',
+                                                        margin: '0px',
+                                                    }}
+                                                >
+                                                    <motion.li
+                                                        variants={item}
+                                                        style={{
+                                                            listStyleType:
+                                                                'none',
+                                                        }}
+                                                    >
+                                                        <Button
+                                                            onClick={() => {
+                                                                setGithubDropdown(
+                                                                    false
+                                                                ),
+                                                                    setTimeout(
+                                                                        () => {
+                                                                            window.open(
+                                                                                'https://github.com/gnayiqnat/mss'
+                                                                            );
+                                                                        },
+                                                                        200
+                                                                    );
+                                                            }}
+                                                            sx={{
+                                                                padding:
+                                                                    '8px 20px',
+                                                                textTransform:
+                                                                    'none',
+                                                                gap: '0px 8px',
+                                                                justifyContent:
+                                                                    'left',
+                                                                width: '100%',
+                                                            }}
+                                                        >
+                                                            <CodeRounded fontSize='small' />
+                                                            <Typography
+                                                                sx={{
+                                                                    fontFamily:
+                                                                        'Nunito',
+                                                                    fontWeight:
+                                                                        '700',
+                                                                }}
+                                                            >
+                                                                Source code
+                                                            </Typography>
+                                                        </Button>
+                                                    </motion.li>
+                                                    <motion.li
+                                                        variants={item}
+                                                        style={{
+                                                            listStyleType:
+                                                                'none',
+                                                        }}
+                                                    >
+                                                        <Button
+                                                            onClick={() => {
+                                                                setGithubDropdown(
+                                                                    false
+                                                                ),
+                                                                    setTimeout(
+                                                                        () => {
+                                                                            window.open(
+                                                                                'https://github.com/gnayiqnat/mss/issues'
+                                                                            );
+                                                                        },
+                                                                        200
+                                                                    );
+                                                            }}
+                                                            sx={{
+                                                                padding:
+                                                                    '8px 20px',
+                                                                textTransform:
+                                                                    'none',
+                                                                gap: '0px 8px',
+                                                                justifyContent:
+                                                                    'left',
 
+                                                                width: '100%',
+                                                            }}
+                                                        >
+                                                            <BugReportOutlined fontSize='small' />
+                                                            <Typography
+                                                                sx={{
+                                                                    fontFamily:
+                                                                        'Nunito',
+                                                                    fontWeight:
+                                                                        '700',
+                                                                }}
+                                                            >
+                                                                Report a Bug
+                                                            </Typography>
+                                                        </Button>
+                                                    </motion.li>{' '}
+                                                </motion.ul>
+                                            </Card>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </Box>
+                        )}
+                    </Box>
+                    {username || userEmail ? (
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexDirection: 'row',
+                                gap: '0px 10px',
+                            }}
+                        >
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.5, delay: 1 }}
+                            >
+                                <Typography
+                                    sx={{
+                                        color: 'primary.main',
+                                    }}
+                                >
+                                    {username != '' ? username : userEmail}
+                                </Typography>
+                            </motion.div>
+                            <motion.div
+                                initial={{ scale: 1 }}
+                                whileHover={{ scale: 0.95 }}
+                                whileTap={{ scale: 0.8 }}
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => {
+                                    navigate('/profile');
+                                }}
+                            >
+                                <Avatar
+                                    sx={{
+                                        backgroundColor: 'primary.main',
+                                    }}
+                                />
+                            </motion.div>
+                        </Box>
+                    ) : (
                         <Box
                             sx={{
                                 display: 'flex',
@@ -373,7 +586,7 @@ function NavBar() {
                                         exit={{ opacity: 0 }}
                                         style={{
                                             position: 'absolute',
-                                            left: 0,
+                                            right: 0,
                                             top: 50,
                                         }}
                                     >
@@ -487,46 +700,6 @@ function NavBar() {
                                     </motion.div>
                                 )}
                             </AnimatePresence>
-                        </Box>
-                    </Box>
-                    {(username || userEmail) && (
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                flexDirection: 'row',
-                                gap: '0px 10px',
-                            }}
-                        >
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.5, delay: 1 }}
-                            >
-                                <Typography
-                                    sx={{
-                                        color: 'primary.main',
-                                    }}
-                                >
-                                    {username != '' ? username : userEmail}
-                                </Typography>
-                            </motion.div>
-                            <motion.div
-                                initial={{ scale: 1 }}
-                                whileHover={{ scale: 0.95 }}
-                                whileTap={{ scale: 0.8 }}
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                    navigate('/profile');
-                                }}
-                            >
-                                <Avatar
-                                    sx={{
-                                        backgroundColor: 'primary.main',
-                                    }}
-                                />
-                            </motion.div>
                         </Box>
                     )}
                 </Toolbar>
