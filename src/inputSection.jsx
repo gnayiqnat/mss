@@ -25,6 +25,11 @@ import { useNavigate } from 'react-router-dom';
 import { useGlobalContext } from './newInputPage';
 import { useMediaQuery } from 'react-responsive';
 import { motion } from 'framer-motion';
+import {
+    RegExpMatcher,
+    englishDataset,
+    englishRecommendedTransformers,
+} from 'obscenity';
 
 export default function InputSection({ setDrawerOpen, grades, setGrades }) {
     const navigate = useNavigate();
@@ -36,6 +41,11 @@ export default function InputSection({ setDrawerOpen, grades, setGrades }) {
     const studentClassRef = useRef(selectedClass); // Ref synchronized with state
 
     const [isLoading, setIsLoading] = useState(false);
+
+    const matcher = new RegExpMatcher({
+        ...englishDataset.build(),
+        ...englishRecommendedTransformers,
+    });
 
     const handleSelectChange = (event) => {
         const newClass = event.target.value;
@@ -57,6 +67,14 @@ export default function InputSection({ setDrawerOpen, grades, setGrades }) {
     function handleSubmit() {
         formRef.current.reportValidity();
         setIsLoading(true);
+
+        if (matcher.hasMatch(studentName)) {
+            enqueueSnackbar('The input text contains profanities.', {
+                variant: 'error',
+            });
+            setIsLoading(false);
+            return;
+        }
         if (studentName && studentClassRef.current) {
             LogSignInTime(studentName, studentClassRef.current).then((r) => {
                 if (r) {
