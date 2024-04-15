@@ -20,8 +20,19 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { PersonOutlineRounded } from '@mui/icons-material';
+import {
+    RegExpMatcher,
+    englishDataset,
+    englishRecommendedTransformers,
+} from 'obscenity';
 
 export default function SetUsername() {
+
+    const matcher = new RegExpMatcher({
+        ...englishDataset.build(),
+        ...englishRecommendedTransformers,
+    });
+
     const [scope, animate] = useAnimate();
     const navigate = useNavigate();
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
@@ -32,6 +43,7 @@ export default function SetUsername() {
     const [userEmail, setUserEmail] = useState('');
     const [newUsername, setNewUsername] = useState('');
 
+    
     useEffect(() => {
         checkIfSignedIn().then((isSignedIn) => {
             if (isSignedIn != true) {
@@ -60,6 +72,14 @@ export default function SetUsername() {
 
     async function handleSubmit() {
         setIsLoading(true);
+
+        if (matcher.hasMatch(newUsername)) {
+            enqueueSnackbar('The input text contains profanities.', {
+                variant: 'error',
+            });
+            setIsLoading(false);
+            return;
+        }
 
         if (newUsername) {
             try {
