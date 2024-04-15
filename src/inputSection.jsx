@@ -47,6 +47,8 @@ export default function InputSection({ setDrawerOpen, grades, setGrades }) {
         ...englishRecommendedTransformers,
     });
 
+    const ALPHA_NUMERIC_DASH_REGEX = /^[a-zA-Z0-9-]+$/;
+
     const handleSelectChange = (event) => {
         const newClass = event.target.value;
         setSelectedClass(newClass);
@@ -121,12 +123,19 @@ export default function InputSection({ setDrawerOpen, grades, setGrades }) {
                 >
                     <TextField
                         required
-                        onKeyDown={(e) => {
+                        onKeyDown={(e) => { 
                             e.key === 'Enter' && handleSubmit();
                         }}
                         value={studentName}
                         onChange={(e) => {
-                            setStudentName(e.target.value);
+                            const value = e.target.value;
+                            if (
+                                value !== '' &&
+                                !ALPHA_NUMERIC_DASH_REGEX.test(value)
+                            ) {
+                                return;
+                            }
+                            setStudentName(value);
                         }}
                         sx={{ width: isMobile ? '90vw' : '300px' }}
                         label='Student name'

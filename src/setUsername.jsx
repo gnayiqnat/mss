@@ -183,7 +183,14 @@ export default function SetUsername() {
                                 style: { fontSize: '18px' },
                             }}
                             onChange={(e) => {
-                                setNewUsername(e.target.value);
+                                const value = e.target.value;
+                                if (
+                                    value !== '' &&
+                                    !ALPHA_NUMERIC_DASH_REGEX.test(value)
+                                ) {
+                                    return;
+                                }
+                                setNewUsername(value);
                             }}
                             InputProps={{
                                 startAdornment: (
