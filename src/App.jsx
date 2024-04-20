@@ -147,7 +147,7 @@ export default function App() {
                     disableWindowBlurListener={true}
                     autoHideDuration={3000}
                     anchorOrigin={{
-                        vertical: isMobile ? 'top' : 'bottom',
+                        vertical: (isMobile && location.pathname != '/') ? 'top' : 'bottom',
                         horizontal: isMobile ? 'center' : 'right',
                     }}
                     maxSnack={3}
