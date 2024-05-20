@@ -1,6 +1,6 @@
 # MSS
 
-[![Website Status](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://makerspace-seg.pages.dev) [![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/gnayiqnat/mss/blob/main/LICENSE)
+[![Website Status](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://msssa.pages.dev) [![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/gnayiqnat/mss/blob/main/LICENSE)
 
 MSS is a website designed to simplify logging-in students for a school
 
