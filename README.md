@@ -6,7 +6,7 @@ MSSSA is a website designed to simplify logging-in students for a school
 
 <div><img src="https://github.com/gnayiqnat/msssa/assets/133224159/677b3d2b-28e0-48f4-a9c8-47cfc4ce74fc" width="500" /></div>
 <div><img src="https://github.com/gnayiqnat/msssa/assets/133224159/a7cdb2d7-d377-4017-bf3b-71a2c6056b76" width="500"  /></div>
-<div><img src="https://github.com/gnayiqnat/msssa/assets/133224159/ca236bee-045b-4c5d-83b3-c8cb822db8bd" width="500" /></div>
+<div><img src="https://github.com/gnayiqnat/msssa/assets/133224159/02531219-dcbf-4064-8458-de555672a0b8" width="500" /></div>
 
 
 ## Prerequisites
