@@ -118,10 +118,6 @@ export default function App() {
 		},
 	}));
 
-	window.addEventListener('beforeunload', async function (event) {
-		await UpdateLogOutTime();
-		logOut();
-	});
 
 	return (
 		<>
