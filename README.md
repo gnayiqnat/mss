@@ -2,15 +2,11 @@
 
 [![Website Status](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://makerspace-seg.pages.dev) [![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/gnayiqnat/mss/blob/main/LICENSE)
 
-MSS is a website designed to automatically log sign-in times for users within an organization. It's a work in progress and is currently in beta, so expect some bugs and frequent updates.
+MSS is a website designed to simplify logging-in students for a school
 
 ## Prerequisites
 
-To use MSS, all you need is an internet connection and a web browser.
-
-## Usage
-
-MSS automatically logs your sign-in when you access the website. To sign out, simply navigate to the sign-out page or close the browser tab/window.
+You need a Supabase Account
 
 ## Known Issues
 
