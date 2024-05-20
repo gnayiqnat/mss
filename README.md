@@ -28,4 +28,4 @@ This project is licensed under the GNU General Public License v3.0 (GPL-3.0). Yo
 
 ## Contact
 
-For support or questions, you can reach out to the project maintainer at [gnayiqnat@gmail.com](mailto:gnayiqnat@gmail.com).
+For support or questions, you can reach out to the project maintainer at [gnayiqnat@proton.me](mailto:gnayiqnat@proton.me).
