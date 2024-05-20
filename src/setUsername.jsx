@@ -184,9 +184,10 @@ export default function SetUsername() {
                             }}
                             onChange={(e) => {
                                 const value = e.target.value;
+                                const regexp = /^[a-zA-Z0-9]+$/;
                                 if (
-                                    value !== '' &&
-                                    !ALPHA_NUMERIC_DASH_REGEX.test(value)
+                                    value === '' ||
+                                    (value.search(regexp) === -1)
                                 ) {
                                     return;
                                 }
@@ -238,7 +239,7 @@ function SubmitButton({ handleSubmit, isLoading }) {
                         backgroundColor: 'primary.main',
                         padding: '15px',
                         width: '100%',
-                        borderRadius: '80px',
+                        borderRadius: '15px',
                         '&:hover': {
                             backgroundColor: 'primary.main',
                         },
