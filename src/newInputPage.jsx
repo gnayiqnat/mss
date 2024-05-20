@@ -94,11 +94,11 @@ export default function NewInputPage() {
 		await getStudentDetails().then((r) => {
 			setStudentDetailsList(r);
 			if (r.length > 7) {
-                setLimitHasReached(true);
-                setDrawerOpen(false);
-            } else {
-                setLimitHasReached(false)
-            }
+				setLimitHasReached(true);
+				setDrawerOpen(false);
+			} else {
+				setLimitHasReached(false);
+			}
 		});
 	}
 
@@ -119,6 +119,7 @@ export default function NewInputPage() {
 				<AddStudentDrawer
 					drawerOpen={drawerOpen}
 					setDrawerOpen={setDrawerOpen}
+					studentDetailsListLength={studentDetailsList.length}
 				/>
 			</GlobalContext.Provider>
 			<Box
@@ -151,7 +152,7 @@ export default function NewInputPage() {
 							mt: isMobile && 0.5,
 						}}
 					>
-						Pupils ({studentDetailsList.length})
+						Pupils ({studentDetailsList.length}/8)
 					</Typography>
 					{studentDetailsList != null && (
 						<Box
@@ -517,7 +518,11 @@ export default function NewInputPage() {
 	);
 }
 
-function AddStudentDrawer({ drawerOpen, setDrawerOpen }) {
+function AddStudentDrawer({
+	drawerOpen,
+	setDrawerOpen,
+	studentDetailsListLength,
+}) {
 	const [grades, setGrades] = useState('');
 
 	const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
@@ -612,7 +617,7 @@ function AddStudentDrawer({ drawerOpen, setDrawerOpen }) {
 									mt: isMobile && 7,
 								}}
 							>
-								Add new student
+								Add new pupil ({studentDetailsListLength}/8)
 							</Typography>
 							<InputSection
 								setDrawerOpen={setDrawerOpen}
